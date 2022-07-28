@@ -4,8 +4,8 @@
   <ShortName>React Redux 中文文档</ShortName>
   <Description>Search React Redux 中文文档</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://react-redux.js.org/img/favicon/favicon.ico</Image>
-  <Url type="text/html" method="get" template="https://react-redux.js.org/search?q={searchTerms}"/>
-  <Url type="application/opensearchdescription+xml" rel="self" template="https://react-redux.js.org/opensearch.xml" />
-  <moz:SearchForm>https://react-redux.js.org/</moz:SearchForm>
+  <Image width="16" height="16" type="image/x-icon">https://react-redux.js.org/react-redux-in-chinese/img/favicon/favicon.ico</Image>
+  <Url type="text/html" method="get" template="https://react-redux.js.org/react-redux-in-chinese/search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://react-redux.js.org/react-redux-in-chinese/opensearch.xml" />
+  <moz:SearchForm>https://react-redux.js.org/react-redux-in-chinese/</moz:SearchForm>
 </OpenSearchDescription>
