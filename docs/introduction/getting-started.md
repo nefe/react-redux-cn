@@ -1,8 +1,8 @@
 ---
 id: getting-started
-title: Getting Started with React Redux
+title: 入门 React Redux
 hide_title: true
-sidebar_label: Getting Started
+sidebar_label: 入门 React Redux
 description: 'Introduction > Getting Started: First steps with React Redux'
 ---
 
@@ -11,7 +11,7 @@ description: 'Introduction > Getting Started: First steps with React Redux'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
-# Getting Started with React Redux
+# 入门 React Redux
 
 [React Redux](https://github.com/reduxjs/react-redux) is the official [React](https://reactjs.org/) UI bindings layer for [Redux](https://redux.js.org/). It lets your React components read data from a Redux store, and dispatch actions to the store to update state.
 

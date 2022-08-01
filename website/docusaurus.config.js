@@ -38,9 +38,9 @@ const siteConfig = {
   onBrokenLinks: 'throw',
   tagline: '官方的 React 对 Redux 绑定库',
   url: 'https://react-redux.js.org', // Your website URL
-  baseUrl: '/react-redux-in-chinese/', // FIXME remove trailing slash later
+  baseUrl: '/react-redux-cn/', // FIXME remove trailing slash later
   // Used for publishing and more
-  projectName: 'react-redux-in-chinese',
+  projectName: 'react-redux-cn',
   organizationName: 'nefe',
 
   // For no header links in the top nav bar -> headerLinks: [],
@@ -60,7 +60,7 @@ const siteConfig = {
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   customFields: {
-    repoUrl: 'https://github.com/nefe/react-redux-in-chinese',
+    repoUrl: 'https://github.com/nefe/react-redux-cn',
   },
   themeConfig: {
     metadatas: [{ name: 'twitter:card', content: 'summary' }],
@@ -92,7 +92,7 @@ const siteConfig = {
         },
         { to: 'api/hooks', label: 'API', position: 'right' },
         {
-          href: 'https://www.github.com/nefe/react-redux-in-chinese',
+          href: 'https://www.github.com/nefe/react-redux-cn',
           label: 'GitHub',
           position: 'right',
           className: 'github',

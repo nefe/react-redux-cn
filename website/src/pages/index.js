@@ -11,16 +11,14 @@ const features = [
   {
     content: (
       <p>
-        React Redux is maintained by the Redux team, and{' '}
-        <strong>
-          kept up-to-date with the latest APIs from Redux and React
-        </strong>
-        .
+        React Redux 由 Redux 官方团队维护，并{' '}
+        <strong>与 Redux 和 React 最新的 API 保持同步</strong>
+        。
       </p>
     ),
     image: <img src="img/noun_Certificate_1945625.svg" />,
     imageAlign: 'top',
-    title: 'Official'
+    title: '官方维护'
   },
   {
     content: (
@@ -130,7 +128,7 @@ function Home() {
               )}
               to={useBaseUrl('introduction/getting-started')}
             >
-              Get Started
+              入门 React Redux
             </Link>
           </div>
         </div>
