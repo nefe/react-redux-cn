@@ -37,8 +37,8 @@ const siteConfig = {
   title: 'React Redux 中文文档', // Title for your website.
   onBrokenLinks: 'throw',
   tagline: '官方的 React 对 Redux 绑定库',
-  url: 'https://react-redux.js.org', // Your website URL
-  baseUrl: '/react-redux-cn/', // FIXME remove trailing slash later
+  url: 'https://cn.react-redux.js.org', // Your website URL
+  baseUrl: '/',
   // Used for publishing and more
   projectName: 'react-redux-cn',
   organizationName: 'nefe',
