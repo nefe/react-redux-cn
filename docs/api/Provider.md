@@ -10,63 +10,64 @@ description: 'API > Provider: providing the Redux store to your React app'
 
 # `Provider`
 
-## Overview
+## 概述
 
-The `<Provider>` component makes the Redux `store` available to any nested components that need to access the Redux store.
+`<Provider>` 组件使 Redux `store` 可用于任何需要访问 Redux store 的嵌套组件。
 
-Since any React component in a React Redux app can be connected to the store, most applications will render a `<Provider>` at the top level, with the entire app’s component tree inside of it.
+由于 React Redux 应用中的任何 React 组件都可以连接到 store，因此大多数应用会在顶层渲染一个 `<Provider>`，将整个应用的组件树包裹其中。
 
-The [Hooks](./hooks.md) and [`connect`](./connect.md) APIs can then access the provided store instance via React's Context mechanism.
+[Hooks](./hooks.md) 和 [`connect`](./connect.md) API 可以通过 React 的 Context 机制访问所提供的 store 实例。
 
 ### Props
 
 ```ts
 interface ProviderProps<A extends Action = AnyAction, S = any> {
   /**
-   * The single Redux store in your application.
+   * 应用程序中的单个 Redux store。
    */
   store: Store<S, A>
 
   /**
-   * An optional server state snapshot. Will be used during initial hydration render
-   * if available, to ensure that the UI output is consistent with the HTML generated on the server.
-   * New in 8.0
+   * 可选的服务器状态快照。将在初始激活(hydration)渲染期间使用
+   * 如果该项参数可用，确保输出的 UI 与服务器上生成的 HTML 一致。
+   * 8.0 中的新功能
    */
   serverState?: S
 
   /**
-   * Optional context to be used internally in react-redux. Use React.createContext()
-   * to create a context to be used.
-   * If this is used, you'll need to customize `connect` by supplying the same
-   * context provided to the Provider.
-   * Initial value doesn't matter, as it is overwritten with the internal state of Provider.
+   * 在 react-redux 内部使用的可选上下文。 使用 React.createContext()
+   * 创建要使用的上下文。
+   * 如果使用该项参数，你将需要通过向 Provider 提供相同的上下文
+   * 来自定义 `connect`。
+   * 初始值无关紧要，因为它会被 Provider 内部的 state 覆盖。
    */
   context?: Context<ReactReduxContextValue<S, A>>
 
-  /** The top-level React elements in your component tree, such as `<App />` **/
+  /** 组件树中的顶层 React 元素，比如 `<App />` **/
   children: ReactNode
 }
 ```
 
-Typically, you only need to pass `<Provider store={store}>`.
+通常情况下，你只需要传入 `<Provider store={store}>`。
 
-You may provide a context instance. If you do so, you will need to provide the same context instance to all of your connected components as well. Failure to provide the correct context results in this runtime error:
+你可以提供一个上下文实例。如果这样做的话，你还需要为所有连接的组件提供相同的上下文实例。未能提供正确的上下文实例会导致以下运行报错：
 
 > Invariant Violation
 >
 > Could not find "store" in the context of "Connect(MyComponent)". Either wrap the root component in a `<Provider>`, or pass a custom React context provider to `<Provider>` and the corresponding React context consumer to Connect(Todo) in connect options.
 
-## React 18 SSR Usage
+## React 18 使用 SSR
 
-As of React-Redux v8, `<Provider>` now accepts a `serverState` prop for use in SSR hydration scenarios. This is necessary if you are calling `hydrateRoot` in order to avoid hydration mismatches.
+从 React-Redux v8 开始，`<Provider>` 接受一个 `serverState` 属性以用于 SSR 激活的场景。
+如果你调用 `hydraRoot` 来避免激活不匹配，该属性是必要的。
 
-You should pass the entire serialized state from the server as the `serverState` prop, and React will use this state for the initial hydration render. After that, it will apply any updates from changes that occurred on the client during the setup process.
+你应该从服务器传递整个序列化的 state 作为 `serverState` 属性，React 将使用此 state 进行初始的激活渲染。之后，在渲染过程中它会依赖客户端发生的变更而进行更新。
 
-## Examples
+## 示例
 
-### Basic Usage
+### 基本用法
 
-In the example below, the `<App />` component is our root-level component. This means it’s at the very top of our component hierarchy.
+在下面的示例中，`<App />` 组件是我们的根级组件。这意味着它位于我们组件层次的最顶层。
 
 ```jsx
 import React from 'react'
@@ -78,7 +79,7 @@ import createStore from './createReduxStore'
 
 const store = createStore()
 
-// As of React 18
+// 从 React 18 起
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
@@ -87,9 +88,9 @@ root.render(
 )
 ```
 
-### React 18 SSR Hydration
+### React 18 SSR 激活
 
-In this example, the client has received HTML rendered by the server, as well as a serialized Redux state attached to `window`. The serialized state is used to both pre-fill the store's contents, _and_ passed as the `serverState` prop to `<Provider>`
+在这个例子中，客户端收到了服务器渲染的 HTML，以及一个附加到 `window` 的序列化 Redux state。序列化 state 用于预填充 store 的内容，并作为 `serverState` 属性传递给 `<Provider>`
 
 ```tsx title="src/index.ts"
 import { hydrateRoot } from 'react-dom/client'
