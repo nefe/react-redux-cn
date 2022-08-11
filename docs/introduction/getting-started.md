@@ -133,7 +133,7 @@ Redux 的维护者 Mark Erikson 出现在 "Learn with Jason" 节目中，解释�
 
 ## 帮助和讨论
 
-**[Reactiflux Discord 社区](http://www.reactiflux.com)**的 **[#redux channel](https://discord.gg/0ZcbPKXt5bZ6au5t)** 是我们所有与学习和使用Redux相关的问题的官方资源。 Reactiflux 是一个闲逛，提问和学习的好地方 - 快来加入我们吧!
+**[Reactiflux Discord 社区](http://www.reactiflux.com)** 的 **[#redux channel](https://discord.gg/0ZcbPKXt5bZ6au5t)** 是我们所有与学习和使用Redux相关的问题的官方资源。 Reactiflux 是一个闲逛，提问和学习的好地方 - 快来加入我们吧!
 
 你还可以使用 **[#redux tag](https://stackoverflow.com/questions/tagged/redux)** 在 [Stack Overflow](https://stackoverflow.com)上提问。
 
