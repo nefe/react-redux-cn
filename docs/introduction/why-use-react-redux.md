@@ -8,84 +8,85 @@ description: 'Introduction > Why Use React Redux: benefits of using React Redux 
 
 &nbsp;
 
-# Why Use React Redux?
+# 为什么要使用 React Redux?
 
-Redux itself is a standalone library that can be used with any UI layer or framework, including React, Angular, Vue, Ember, and vanilla JS. Although Redux and React are commonly used together, they are independent of each other.
+Redux 本身是一个能够在任何UI层或框架中使用的独立的库,包括React, Angular, Vue, Ember, 和 vanilla JS. 
+尽管 Redux 和 React 经常被一起使用,但是它们还是彼此独立的。
 
-If you are using Redux with any kind of UI framework, you will normally use a "UI binding" library to tie Redux together with your UI framework, rather than directly interacting with the store from your UI code.
+如果您在使用 Redux 和任意一个UI框架, 您通常会使用"UI 绑定"库将 Redux 与您的 UI 框架联系在一起, 而不是让您的 UI 代码与 store 直接交流。
 
-**React Redux is the official Redux UI binding library for React**. If you are using Redux and React together, you should also use React Redux to bind these two libraries.
+**React Redux 是 React 官方的的 Redux UI 绑定库**。 如果您正在使用 Redux 和 React， 您也应该使用 React Redux去连接这两个库。
 
-To understand why you should use React Redux, it may help to understand what a "UI binding library" does.
-
-:::info
-
-If you have questions about whether you should use Redux in general, please see these articles for discussion of when and why you might want to use Redux, and how it's intended to be used:
-
-- [Redux docs: Motivation](https://redux.js.org/introduction/motivation)
-- [Redux docs: FAQ - When should I use Redux?](https://redux.js.org/faq/general#when-should-i-use-redux)
-- [You Might Not Need Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367)
-- [Idiomatic Redux: The Tao of Redux, Part 1 - Implementation and Intent](https://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/)
-
-:::
-
-## Integrating Redux with a UI
-
-Using Redux with _any_ UI layer requires [the same consistent set of steps](https://blog.isquaredsoftware.com/presentations/workshops/redux-fundamentals/ui-layer.html#/4):
-
-1. Create a Redux store
-2. Subscribe to updates
-3. Inside the subscription callback:
-   1. Get the current store state
-   2. Extract the data needed by this piece of UI
-   3. Update the UI with the data
-4. If necessary, render the UI with initial state
-5. Respond to UI inputs by dispatching Redux actions
-
-While it is possible to write this logic by hand, doing so would become very repetitive. In addition, optimizing UI performance would require complicated logic.
-
-The process of subscribing to the store, checking for updated data, and triggering a re-render can be made more generic and reusable. **A UI binding library like React Redux handles the store interaction logic, so you don't have to write that code yourself.**
+要了解为什么应该使用React Redux，了解"UI 绑定库"的作用可能会有所帮助。
 
 :::info
 
-For a deeper look at how React Redux works internally and how it handles the store interaction for you, see **[Idiomatic Redux: The History and Implementation of React Redux](https://blog.isquaredsoftware.com/2018/11/react-redux-history-implementation/)**.
+如果您对是否使用Redux有疑问, 请参阅这些文章以讨论何时，以及为什么要使用Redux，以及它的使用方式:
+
+- [Redux 文档: 动机](https://redux.js.org/introduction/motivation)
+- [Redux 文档: FAQ - 我应该什么时候使用Redux?](https://redux.js.org/faq/general#when-should-i-use-redux)
+- [你可能不需要Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367)
+- [惯用的 Redux: Redux之道, 第1部分 - 实现和意图](https://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/)
 
 :::
 
-## Reasons to Use React Redux
+## 集成 Redux 和 UI
 
-### It is the Official Redux UI Bindings for React
+将 Redux 和 _任意_ 的UI 框架一起使用都需要 [相同一致的以下几个步骤](https://blog.isquaredsoftware.com/presentations/workshops/redux-fundamentals/ui-layer.html#/4):
 
-While Redux can be used with any UI layer, it was originally designed and intended for use with React. There are [UI binding layers for many other frameworks](https://redux.js.org/introduction/ecosystem#library-integration-and-bindings), but React Redux is maintained directly by the Redux team.
+1. 创建一个 Redux store
+2. 订阅更新
+3. 订阅回调内部:
+   1. 获取当前的 store state
+   2. 提取这部分 UI 需要的数据
+   3. 使用数据更新 UI
+4. 如有必要, 用初始的 state 去渲染 UI
+5. 通过 dispatching Redux actions 去响应 UI 层的交互
 
-As the official Redux binding for React, React Redux is kept up-to-date with any API changes from either library, to ensure that your React components behave as expected. Its intended usage adopts the design principles of React - writing declarative components.
+虽然可以手动编写此逻辑，但这样做会变得非常重复。此外，优化 UI 性能需要很复杂的逻辑。
 
-### It Implements Performance Optimizations For You
+订阅 store，检查更新数据和触发重新渲染的过程可以变得更加通用和可重用。 **像React Redux这样的 UI 绑定库处理 store  的交互逻辑, 因此您不必自己编写这部分代码。**
 
-React is generally fast, but by default any updates to a component will cause React to re-render all of the components inside that part of the component tree. This does require work, and if the data for a given component hasn't changed, then re-rendering is likely some wasted effort because the requested UI output would be the same.
+:::info
 
-If performance is a concern, the best way to improve performance is to skip unnecessary re-renders, so that components only re-render when their data has actually changed. **React Redux implements many performance optimizations internally, so that your own component only re-renders when it actually needs to.**
+要更深入地了解 React Redux 如何在内部工作以及它如何为您处理 store 的交互, 请参阅 **[Idiomatic Redux: React Redux 的历史和实现](https://blog.isquaredsoftware.com/2018/11/react-redux-history-implementation/)**.
 
-In addition, by connecting multiple components in your React component tree, you can ensure that each connected component only extracts the specific pieces of data from the store state that are needed by that component. This means that your own component will need to re-render less often, because most of the time those specific pieces of data haven't changed.
+:::
 
-### Community Support
+## 使用 React Redux 的理由
 
-As the official binding library for React and Redux, React Redux has a large community of users. This makes it easier to ask for help, learn about best practices, use libraries that build on top of React Redux, and reuse your knowledge across different applications.
+### 它是 React 官方的 Redux UI 绑定
 
-## Links and References
+虽然 Redux 可以和任意的 UI 层一起使用，但它最初是为与 React 一起工作而设计的。 此处有 [许多其他框架的 UI 绑定层 (https://redux.js.org/introduction/ecosystem#library-integration-and-bindings), 但是 React Redux 是由 Redux 团队直接维护的。
 
-### Understanding React Redux
+作为 React 官方的 Redux 绑定，React Redux 与来自任一库的任何 API 更改保持更新，以确保您的 React 组件按预期运行。它的预期用途采用了 React 的设计原则 - 编写声明性组件。
 
-- [Idiomatic Redux: The History and Implementation of React Redux](https://blog.isquaredsoftware.com/2018/11/react-redux-history-implementation/)
+### 它能帮助您提升性能优化
+
+React 通常都会很快，但默认情况下的，对组件的任何更新都会导致 React 重新渲染组件树该部分内的所有组件。确实需要这样做， 如果给定组件的数据没有更改，那么重新渲染可能会浪费一些性能，因为请求到的 UI 输出将是相同的。
+
+如果性能是一个问题，最好的提高性能的最佳方法就是跳过不必要的重新渲染，以便组件仅在其数据实际更改时重新渲染。 **React Redux 在内部实现了许多性能优化，以便您编写的组件仅在实际需要时重新渲染。**
+
+此外，通过在 React 组件树中连接多个组件，您可以确保每个连接的组件仅从该组件所需的 store state 中提取特定的数据。 这意味着您自己的组件将需要更少的重新渲染，因为大多数时候这些特定的数据都没有改变。
+
+### 社区支持
+
+作为 React 和 Redux 的官方绑定库，React Redux 拥有庞大的用户社区。这使得您寻求帮助，了解最佳实践，使用构建在 React Redux 之上的库，在不同应用程序之间重用您的知识变的更加简单。
+
+## 链接和参考
+
+### 了解 React Redux
+
+- [Idiomatic Redux: React Redux 的历史和实现](https://blog.isquaredsoftware.com/2018/11/react-redux-history-implementation/)
 - [`connect.js` Explained](https://gist.github.com/gaearon/1d19088790e70ac32ea636c025ba424e)
 - [Redux Fundamentals workshop slides](https://blog.isquaredsoftware.com/2018/06/redux-fundamentals-workshop-slides/)
   - [UI Layer Integration](https://blog.isquaredsoftware.com/presentations/workshops/redux-fundamentals/ui-layer.html)
   - [Using React Redux](https://blog.isquaredsoftware.com/presentations/workshops/redux-fundamentals/react-redux.html)
 
-### Community Resources
+### 社区资源
 
-- Discord channel: [#redux on Reactiflux](https://discord.gg/0ZcbPKXt5bZ6au5t) ([Reactiflux invite link](https://reactiflux.com))
-- Stack Overflow topics: [Redux](https://stackoverflow.com/questions/tagged/redux), [React Redux](https://stackoverflow.com/questions/tagged/redux)
+- 意见频道: [#redux on Reactiflux](https://discord.gg/0ZcbPKXt5bZ6au5t) ([Reactiflux invite link](https://reactiflux.com))
+- Stack Overflow 主题: [Redux](https://stackoverflow.com/questions/tagged/redux), [React Redux](https://stackoverflow.com/questions/tagged/redux)
 - Reddit: [/r/reactjs](https://www.reddit.com/r/reactjs/), [/r/reduxjs](https://www.reddit.com/r/reduxjs/)
-- GitHub issues (bug reports and feature requests): https://github.com/reduxjs/react-redux/issues
-- Tutorials, articles, and further resources: [React/Redux Links](https://github.com/markerikson/react-redux-links)
+- GitHub issues (bug 报告 和 功能请求): https://github.com/reduxjs/react-redux/issues
+- 教程，文章和更多资源: [React/Redux Links](https://github.com/markerikson/react-redux-links)
