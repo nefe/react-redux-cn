@@ -28,7 +28,7 @@ interface ProviderProps<A extends Action = AnyAction, S = any> {
   store: Store<S, A>
 
   /**
-   * 可选的服务器状态快照。将在初始激活(hydration)渲染期间使用
+   * 可选的服务器状态快照。将在初始 hydration 渲染期间使用
    * 如果该项参数可用，确保输出的 UI 与服务器上生成的 HTML 一致。
    * 8.0 中的新功能
    */
@@ -58,10 +58,10 @@ interface ProviderProps<A extends Action = AnyAction, S = any> {
 
 ## React 18 使用 SSR
 
-从 React-Redux v8 开始，`<Provider>` 接受一个 `serverState` 属性以用于 SSR 激活的场景。
-如果你调用 `hydraRoot` 来避免激活不匹配，该属性是必要的。
+从 React-Redux v8 开始，`<Provider>` 接受一个 `serverState` 属性以用于 SSR hydration 的场景。
+如果你调用 `hydraRoot` 来避免 hydration 不匹配，该属性是必要的。
 
-你应该从服务器传递整个序列化的 state 作为 `serverState` 属性，React 将使用此 state 进行初始的激活渲染。之后，在渲染过程中它会依赖客户端发生的变更而进行更新。
+你应该从服务器传递整个序列化的 state 作为 `serverState` 属性，React 将使用此 state 进行初始的 hydration 渲染。之后，在渲染过程中它会依赖客户端发生的变更而进行更新。
 
 ## 示例
 
@@ -88,7 +88,7 @@ root.render(
 )
 ```
 
-### React 18 SSR 激活
+### React 18 SSR hydration
 
 在这个例子中，客户端收到了服务器渲染的 HTML，以及一个附加到 `window` 的序列化 Redux state。序列化 state 用于预填充 store 的内容，并作为 `serverState` 属性传递给 `<Provider>`
 
