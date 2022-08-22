@@ -17,7 +17,7 @@ import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 ## 安装
 
-React Redux 8.x 需要 **React 16.8.3或更高的版本** / **React Native 0.59或更高的版本**，这样我们就可以使用 React Hooks 了。
+React Redux 8.x 需要 **React 16.8.3 或更高的版本** / **React Native 0.59或更高的版本**，这样我们就可以使用 React Hooks 了。
 
 ### 使用 Create React App
 
