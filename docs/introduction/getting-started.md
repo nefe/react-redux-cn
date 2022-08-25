@@ -62,7 +62,7 @@ import store from './store'
 
 import App from './App'
 
-// 在 React 18 中
+// 从 React 18 开始
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
