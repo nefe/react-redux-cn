@@ -79,13 +79,13 @@ React Redux 提供了一对自定义的 React hooks 使得 React 组件能够与
 
 ```jsx
 import React from 'react'
-import { useSelector，useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
-  decrement，
-  increment，
-  incrementByAmount，
-  incrementAsync，
-  selectCount，
+  decrement,
+  increment,
+  incrementByAmount,
+  incrementAsync,
+  selectCount,
 } from './counterSlice'
 import styles from './Counter.module.css'
 
