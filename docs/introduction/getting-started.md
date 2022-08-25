@@ -13,7 +13,7 @@ import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 # 入门 React Redux
 
-[React Redux](https://github.com/reduxjs/react-redux)是[Redux](https://redux.js.org/)的官方[React](https://reactjs.org/) UI 绑定层。它使得你的 React 组件能够从 Redux store 中读取到数据，并且你可以通过`dispatch` `actions`去更新 store 中的 state。
+[React Redux](https://github.com/reduxjs/react-redux) 是 [Redux](https://redux.js.org/) 的官方[React](https://reactjs.org/) UI 绑定库。它使得你的 React 组件能够从 Redux store 中读取到数据，并且你可以通过`dispatch` `actions`去更新 store 中的 state。
 
 ## 安装
 
@@ -21,10 +21,10 @@ React Redux 8.x 需要 **React 16.8.3 或更高的版本** / **React Native 0.59
 
 ### 使用 Create React App
 
-我们推荐你新建一个 React 和 Redux 的应用，运行 [Create React App](https://github.com/facebook/create-react-app)并选择[官方的 Redux+JS 模版](https://github.com/reduxjs/cra-template-redux)或者 [Redux+TS 模版](https://github.com/reduxjs/cra-template-redux-typescript)，它集成了 **[Redux Toolkit](https://redux-toolkit.js.org/)** 和 React Redux 与 React 组件。
+我们推荐你新建一个 React 和 Redux 的应用，运行 [Create React App](https://github.com/facebook/create-react-app) 并选择[官方的 Redux+JS 模版](https://github.com/reduxjs/cra-template-redux)或者  [Redux+TS 模版](https://github.com/reduxjs/cra-template-redux-typescript)，它集成了 **[Redux Toolkit](https://redux-toolkit.js.org/)** 和 React Redux 与 React 组件。
 
 ```bash
-# Redux + 纯 JS 模版
+# Redux + 普通 JS 模版
 npx create-react-app my-app --template redux
 
 # Redux + TypeScript 模版
@@ -43,7 +43,7 @@ npm install react-redux
 yarn add react-redux
 ```
 
-你也需要去[安装 Redux](https://redux.js.org/introduction/installation)并且在你的应用中[创建一个 Redux store](https://redux.js.org/recipes/configuring-your-store/)。
+你也需要去[安装 Redux](https://redux.js.org/introduction/installation) 并且在你的应用中[创建 Redux store](https://redux.js.org/recipes/configuring-your-store/)。
 
 React-Redux v8 是用 TypeScript 编写的，因此所有的类型都会自动包含在内。
 
@@ -122,7 +122,7 @@ export function Counter() {
 
 ### 学习现代 Redux 流直播
 
-Redux 的维护者 Mark Erikson 出现在 Learn with Jason 节目中，解释了我们今天推荐如何去使用 Redux。该节目包括一个在线编码的示例应用程序，展示了如何将 Redux Toolkit 和 React-Redux hooks 与 Typescript 一起使用，以及新的 RTK Query 数据获取 API。
+Redux 的维护者 Mark Erikson 在 Learn with Jason 节目中，推荐我们如何去使用 Redux。该节目包括一个在线编码的示例应用程序，展示了如何将 Redux Toolkit、React-Redux hooks 与 Typescript 一起使用，以及新的 RTK Query 数据获取 API。
 
 请参阅[the "Learn Modern Redux" show notes page](https://www.learnwithjason.dev/let-s-learn-modern-redux)获取应用源代码的报告和链接。
 
@@ -133,9 +133,9 @@ Redux 的维护者 Mark Erikson 出现在 Learn with Jason 节目中，解释了
 
 ## 帮助和讨论
 
-**[Reactiflux Discord 社区](http://www.reactiflux.com)**的 **[#redux channel](https://discord.gg/0ZcbPKXt5bZ6au5t)**是我们学习和使用所有与 Redux 相关问题的官方资源。Reactiflux 是一个集闲逛，提问和学习的好地方 - 快来加入我们吧！
+**[Reactiflux Discord 社区](http://www.reactiflux.com)**的 **[#redux channel](https://discord.gg/0ZcbPKXt5bZ6au5t)** 是我们学习和使用所有与 Redux 相关问题的官方资源。Reactiflux 是一个闲逛、提问和学习的好地方 - 快来加入我们吧！
 
-你还可以使用 **[#redux tag](https://stackoverflow.com/questions/tagged/redux)**在[Stack Overflow](https://stackoverflow.com)上提问。
+你还可以使用 **[#redux tag](https://stackoverflow.com/questions/tagged/redux)** 在 [Stack Overflow](https://stackoverflow.com) 上提问。
 
 ## 文档翻译
 
