@@ -10,7 +10,7 @@ description: 'Introduction > Why Use React Redux: benefits of using React Redux 
 
 # 为什么要使用 React Redux？
 
-Redux 本身是一个能够在任何UI层或框架中使用的独立的库，包括 React， Angular， Vue， Ember，和 vanilla JS。
+Redux 本身是一个能够在任何 UI 层或框架中使用的独立的库，包括 React， Angular， Vue， Ember，和 vanilla JS。
 尽管 Redux 和 React 经常被一起使用，但是它们还是彼此独立的。
 
 如果你在使用 Redux 和任意一个 UI 框架， 你通常会使用 UI 绑定库将 Redux 与你的 UI 框架联系在一起，而不是让你的 UI 代码与 store 直接交流。
@@ -21,7 +21,7 @@ Redux 本身是一个能够在任何UI层或框架中使用的独立的库，包
 
 :::info
 
-如果你对是否使用Redux有疑问，请参阅这些文章以讨论何时，以及为什么要使用Redux，以及它的使用方式：
+如果你对是否使用 Redux 有疑问，请参阅这些文章以讨论何时，以及为什么要使用 Redux，以及它的使用方式：
 
 - [Redux 文档: 动机](https://redux.js.org/introduction/motivation)
 - [Redux 文档: FAQ - 我应该什么时候使用 Redux？](https://redux.js.org/faq/general#when-should-i-use-redux)
