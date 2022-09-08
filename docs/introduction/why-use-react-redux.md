@@ -57,7 +57,7 @@ Redux 本身是一个能够在任何UI层或框架中使用的独立的库，包
 
 ### 它是 React 官方的 Redux UI 绑定
 
-虽然 Redux 可以和任意的 UI 层一起使用，但它最初是为与 React 一起工作而设计的。此处有[许多其他框架的 UI 绑定层 (https://redux.js.org/introduction/ecosystem#library-integration-and-bindings)，但是 React Redux 是由 Redux 团队直接维护的。
+虽然 Redux 可以和任意的 UI 层一起使用，但它最初是为与 React 一起工作而设计的。此处有[许多其他框架的 UI 绑定层](https://redux.js.org/introduction/ecosystem#library-integration-and-bindings)，但是 React Redux 是由 Redux 团队直接维护的。
 
 作为 React 官方的 Redux 绑定，React Redux 与来自任一库的任何 API 更改保持更新，以确保你的 React 组件按预期运行。它的预期用途采用了 React 的设计原则 - 编写声明性组件。
 
