@@ -10,7 +10,7 @@ description: 'Introduction > Why Use React Redux: benefits of using React Redux 
 
 # 为什么要使用 React Redux？
 
-Redux 本身是一个能够在任何UI层或框架中使用的独立的库，包括 React， Angular， Vue， Ember，和 vanilla JS。
+Redux 本身是一个能够在任何 UI 层或框架中使用的独立的库，包括 React， Angular， Vue， Ember，和 vanilla JS。
 尽管 Redux 和 React 经常被一起使用，但是它们还是彼此独立的。
 
 如果你在使用 Redux 和任意一个 UI 框架， 你通常会使用 UI 绑定库将 Redux 与你的 UI 框架联系在一起，而不是让你的 UI 代码与 store 直接交流。
@@ -21,7 +21,7 @@ Redux 本身是一个能够在任何UI层或框架中使用的独立的库，包
 
 :::info
 
-如果你对是否使用Redux有疑问，请参阅这些文章以讨论何时，以及为什么要使用Redux，以及它的使用方式：
+如果你对是否使用 Redux 有疑问，请参阅这些文章以讨论何时，以及为什么要使用 Redux，以及它的使用方式：
 
 - [Redux 文档: 动机](https://redux.js.org/introduction/motivation)
 - [Redux 文档: FAQ - 我应该什么时候使用 Redux？](https://redux.js.org/faq/general#when-should-i-use-redux)
@@ -57,7 +57,7 @@ Redux 本身是一个能够在任何UI层或框架中使用的独立的库，包
 
 ### 它是 React 官方的 Redux UI 绑定
 
-虽然 Redux 可以和任意的 UI 层一起使用，但它最初是为与 React 一起工作而设计的。此处有[许多其他框架的 UI 绑定层 (https://redux.js.org/introduction/ecosystem#library-integration-and-bindings)，但是 React Redux 是由 Redux 团队直接维护的。
+虽然 Redux 可以和任意的 UI 层一起使用，但它最初是为与 React 一起工作而设计的。此处有[许多其他框架的 UI 绑定层](https://redux.js.org/introduction/ecosystem#library-integration-and-bindings)，但是 React Redux 是由 Redux 团队直接维护的。
 
 作为 React 官方的 Redux 绑定，React Redux 与来自任一库的任何 API 更改保持更新，以确保你的 React 组件按预期运行。它的预期用途采用了 React 的设计原则 - 编写声明性组件。
 

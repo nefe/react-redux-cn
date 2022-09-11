@@ -13,11 +13,11 @@ import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 # 入门 React Redux
 
-[React Redux](https://github.com/reduxjs/react-redux) 是 [Redux](https://redux.js.org/) 的官方[React](https://reactjs.org/) UI 绑定库。它使得你的 React 组件能够从 Redux store 中读取到数据，并且你可以通过`dispatch` `actions`去更新 store 中的 state。
+[React Redux](https://github.com/reduxjs/react-redux) 是 [Redux](https://redux.js.org/) 的官方 [React](https://reactjs.org/) UI 绑定库。它使得你的 React 组件能够从 Redux store 中读取到数据，并且你可以通过`dispatch` `actions`去更新 store 中的 state。
 
 ## 安装
 
-React Redux 8.x 需要 **React 16.8.3 或更高的版本** / **React Native 0.59或更高的版本**，这样我们就可以使用 React Hooks 了。
+React Redux 8.x 需要 **React 16.8.3 或更高的版本** / **React Native 0.59 或更高的版本**，这样我们就可以使用 React Hooks 了。
 
 ### 使用 Create React App
 
@@ -120,11 +120,11 @@ export function Counter() {
 
 ## 学习 React Redux
 
-### 学习现代 Redux 流直播
+### 学习现代 Redux Livestream
 
 Redux 的维护者 Mark Erikson 在 Learn with Jason 节目中，推荐我们如何去使用 Redux。该节目包括一个在线编码的示例应用程序，展示了如何将 Redux Toolkit、React-Redux hooks 与 Typescript 一起使用，以及新的 RTK Query 数据获取 API。
 
-请参阅[the "Learn Modern Redux" show notes page](https://www.learnwithjason.dev/let-s-learn-modern-redux)获取应用源代码的报告和链接。
+请参阅 [the "Learn Modern Redux" show notes page](https://www.learnwithjason.dev/let-s-learn-modern-redux) 获取应用源代码的报告和链接。
 
 <LiteYouTubeEmbed 
     id="9zySeP5vH9c"
@@ -133,7 +133,7 @@ Redux 的维护者 Mark Erikson 在 Learn with Jason 节目中，推荐我们如
 
 ## 帮助和讨论
 
-**[Reactiflux Discord 社区](http://www.reactiflux.com)**的 **[#redux channel](https://discord.gg/0ZcbPKXt5bZ6au5t)** 是我们学习和使用所有与 Redux 相关问题的官方资源。Reactiflux 是一个闲逛、提问和学习的好地方 - 快来加入我们吧！
+**[Reactiflux Discord 社区](http://www.reactiflux.com)** 的 **[#redux channel](https://discord.gg/0ZcbPKXt5bZ6au5t)** 是我们学习和使用所有与 Redux 相关问题的官方资源。Reactiflux 是一个闲逛、提问和学习的好地方 - 快来加入我们吧！
 
 你还可以使用 **[#redux tag](https://stackoverflow.com/questions/tagged/redux)** 在 [Stack Overflow](https://stackoverflow.com) 上提问。
 
