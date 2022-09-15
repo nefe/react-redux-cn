@@ -14,7 +14,7 @@ description: 'Tutorials > Connect API: how to use the legacy connect API'
 
 如今我们推荐使用 [React-Redux hooks API 作为我们的默认推荐](../api/hooks.md)。但是，the `connect` API 仍然可以正常工作。
 
-本教程还展示了一些我们不再推荐的旧做法，例如按类型将 Redux 逻辑按类型分成文件夹的做法。为了完整起见，我们将本教程保持原样， 但建议通过 Redux 文档中的 ["Redux Essentials" 教程](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)和 [Redux 样式指南](https://redux.js.org/style-guide/style-guide)，了解我们当前的最佳实践。
+本教程还展示了一些我们不再推荐的旧做法，例如按类型将 Redux 逻辑按类型分成文件夹的做法。为了完整起见，我们将本教程保持原样， 但建议通过 Redux 文档中的 [Redux Essentials 教程](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)和 [Redux 样式指南](https://redux.js.org/style-guide/style-guide)，了解我们当前的最佳实践。
 
 我们正在编写一个介绍 hooks APIs的新教程。在此之前，我们建议阅读 [**Redux Fundamentals, Part 5: UI and React**](https://redux.js.org/tutorials/fundamentals/part-5-ui-react) 以获得 hooks 教程。
 
@@ -35,9 +35,9 @@ description: 'Tutorials > Connect API: how to use the legacy connect API'
 我们已经实现了 React UI 组件像下面这样：
 
 - `TodoApp` 是我们应用的入口。它渲染 header，`AddTodo`，`TodoList`，和 `VisibilityFilters` 组件。
-- `AddTodo` 是一个允许用户输入代办事项并通过点击 “Add Todo” 按钮添加到列表中的组件：
+- `AddTodo` 是一个允许用户输入代办事项并通过点击 Add Todo 按钮添加到列表中的组件：
   - 它通过 input 的 `onChange` 事件去设置 state。
-  - 当用户点击 “Add Todo” 按钮时，它通过 dispatches action（我们将使用 React Redux 的提供）把 todo 加到 store 中
+  - 当用户点击 Add Todo 按钮时，它通过 dispatches action（我们将使用 React Redux 的提供）把 todo 加到 store 中
 - `TodoList` 是一个渲染 todos 列表的组件：
   - 当其中一个 `VisibilityFilters` 被选中时，它会渲染被过滤的 todos 列表。
 - `Todo` 是一个渲染单个 todo 的组件：
@@ -278,7 +278,7 @@ const TodoList = // ... UI 组件实现
 export default connect(state => ({ todos: getTodos(state) }))(TodoList);
 ```
 
-我们建议在 selector 函数中封装任何复杂的数据查找和计算。此外，你可以通过使用 [Reselect](https://github.com/reduxjs/reselect) 编写可以跳过不必要工作的“记忆化” selectors 来进一步优化性能。（请参阅 [the Redux docs page on Computing Derived Data](https://redux.js.org/recipes/computing-derived-data#sharing-selectors-across-multiple-components) 和博客文章 [Idiomatic Redux: Using Reselect Selectors for Encapsulation and Performance](https://blog.isquaredsoftware.com/2017/12/idiomatic-redux-using-reselect-selectors/) 了解有关为什么以及如何使用 selector 函数的更多信息。）
+我们建议在 selector 函数中封装任何复杂的数据查找和计算。此外，你可以通过使用 [Reselect](https://github.com/reduxjs/reselect) 编写可以跳过不必要工作的记忆化 selectors 来进一步优化性能。（请参阅 [the Redux docs page on Computing Derived Data](https://redux.js.org/recipes/computing-derived-data#sharing-selectors-across-multiple-components) 和博客文章 [Idiomatic Redux: Using Reselect Selectors for Encapsulation and Performance](https://blog.isquaredsoftware.com/2017/12/idiomatic-redux-using-reselect-selectors/) 了解有关为什么以及如何使用 selector 函数的更多信息。）
 
 现在我们的 `<TodoList />` 已连接到 store。它应该接收 todos 的列表，映射它们，并将每个 todo 传递给 `<Todo />` 组件。`<Todo />` 将依次将它们渲染到屏幕上。现在尝试添加 todo。它应该出现在我们的 todo 清单上！
 
@@ -292,7 +292,7 @@ export default connect(state => ({ todos: getTodos(state) }))(TodoList);
 
 |                               | 不订阅 Store                  | 订阅Store                                    |
 | ----------------------------- | ---------------------------------------------- | --------------------------------------------------------- |
-| 不要注入 Action Creators | `connect()(Component)`                         | `connect(mapStateToProps)(Component)`                     |
+| 不注入 Action Creators | `connect()(Component)`                         | `connect(mapStateToProps)(Component)`                     |
 | 注入 Action Creators        | `connect(null, mapDispatchToProps)(Component)` | `connect(mapStateToProps, mapDispatchToProps)(Component)` |
 
 #### 不订阅 store 且不注入 action creators
@@ -372,7 +372,7 @@ export default connect(
 )(Todo);
 ```
 
-现在我们的 todo 可以切换完成。我们快到了！
+现在我们的 todo 可以切换完成。我们快完成了！
 
 ![](https://i.imgur.com/4UBXYtj.png)
 
