@@ -20,7 +20,7 @@ hide_title: true
 - Reducers 永远不应该去 mutate state，他们必须返回新的对象，否则 React Redux 将看不到更新。
 - 确保你实际上是去 _dispatching_ actions。 例如，如果你有一个像 `addTodo` 这样的构造器，仅调用导入的 `addTodo()` 函数本身不会做任何事情因为它只是 _returns_ 一个 action，但不会 _dispatch_ 它。你需要去调用 `dispatch(addTodo())`（如果你正在使用 hooks API）或者 `props.addTodo()`（如果使用 `connect` + `mapDispatch`）。
 
-### 在 context 或 props 中找不到 “store”
+### 在 context 或 props 中找不到 store
 
 如果你有 context 的问题，
 
