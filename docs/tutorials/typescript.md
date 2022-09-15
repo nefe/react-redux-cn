@@ -181,4 +181,4 @@ export function Counter() {
 
 ## 下一步是什么？
 
-有关如何将 Redux Toolkit 的 API 与 TypeScript 一起使用的详细信息，请参阅 ["使用 TypeScript" 页面](../using-react-redux/usage-with-typescript.md)。
+有关如何将 Redux Toolkit 的 API 与 TypeScript 一起使用的详细信息，请参阅 [使用 TypeScript 页面](../using-react-redux/usage-with-typescript.md)。
