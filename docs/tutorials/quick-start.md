@@ -90,7 +90,7 @@ root.render(
 
 创建 slice 需要一个字符串名称来标识 slice，一个初始 state 值，以及一个或多个 reducer 函数来定义如何更新 state。创建 slice 后，我们可以导出生成的 Redux action creators 和整个 slice reducer 函数。
 
-Redux 要求[我们通过制作数据副本和更新副本来不可变地写入所有的 state 更新](https://redux.js.org/tutorials/fundamentals/part-2-concepts-data-flow#immutability)。但是，Redux Toolkit 的 `createSlice` 和 `createReducer` API 在内部使用 [Immer](https://immerjs.github.io/immer/) 允许我们 [编写 "mutating" 更新逻辑从而成为正确的不可变更新](https://redux.js.org/tutorials/fundamentals/part-8-modern-redux#immutable-updates-with-immer)。
+Redux 要求[我们通过制作数据副本和更新副本来不可变地写入所有的 state 更新](https://redux.js.org/tutorials/fundamentals/part-2-concepts-data-flow#immutability)。但是，Redux Toolkit 的 `createSlice` 和 `createReducer` API 在内部使用 [Immer](https://immerjs.github.io/immer/) 允许我们 [编写 mutating 更新逻辑从而成为正确的不可变更新](https://redux.js.org/tutorials/fundamentals/part-8-modern-redux#immutable-updates-with-immer)。
 
 ```js title="features/counter/counterSlice.js"
 import { createSlice } from '@reduxjs/toolkit'
@@ -102,9 +102,9 @@ export const counterSlice = createSlice({
   },
   reducers: {
     increment: (state) => {
-      // Redux Toolkit 允许我们在 reducers 中编写 "mutating" 逻辑。它
+      // Redux Toolkit 允许我们在 reducers 中编写 mutating 逻辑。它
       // 实际上并没有 mutate state 因为它使用了 Immer 库，
-      // 它检测到 "草稿 state" 的变化并产生一个全新的
+      // 它检测到草稿 state 的变化并产生一个全新的
       // 基于这些更改的不可变 state
       state.value += 1
     },
@@ -176,7 +176,7 @@ export function Counter() {
 }
 ```
 
-现在任何时候单击 "Increment" 和 "Decrement 按钮：
+现在任何时候单击 Increment 和 Decrement 按钮：
 
 - 对应的 Redux action 会 dispatch store
 - 计数 slice reducer will 将看到 actions 并更新其 state
@@ -220,4 +220,4 @@ export function Counter() {
 
 ## 下一步是什么？
 
-我们建议你阅读 [**Redux 核心文档中的 "Redux Essentials" 和 "Redux Fundamentals" 教程**](https://redux.js.org/tutorials/index)，这将使你全面了解 Redux 的工作原理，Redux Toolkit 和 React Redux 的作用，以及如何正确使用它。
+我们建议你阅读 [**Redux 核心文档中的 Redux Essentials 和 Redux Fundamentals 教程**](https://redux.js.org/tutorials/index)，这将使你全面了解 Redux 的工作原理，Redux Toolkit 和 React Redux 的作用，以及如何正确使用它。
