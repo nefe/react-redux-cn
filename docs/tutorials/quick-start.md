@@ -179,7 +179,7 @@ export function Counter() {
 现在任何时候单击 Increment 和 Decrement 按钮：
 
 - 对应的 Redux action 会 dispatch store
-- 计数 slice reducer will 将看到 actions 并更新其 state
+- 计数 slice reducer 将看到 actions 并更新其 state
 - `<Counter>` 组件将从 store 中看到新的 state 值，并使用新的数据重新渲染自己
 
 ## 你学到了什么
@@ -194,9 +194,9 @@ export function Counter() {
 - **为 React 应用程序组件提供 Redux store**
   - 在你的 `<App />` 外层包裹一个 React Redux `<Provider>` 组件
   - 将 Redux store 作为 `<Provider store={store}> 传递`
-- **使用 `createSlice` 创建一个 Redux "slice" reducer**
+- **使用 `createSlice` 创建一个 Redux slice reducer**
   - 使用字符串名称，初始 state 和命名的 reducer 函数调用 `createSlice`
-  - Reducer 函数可以使用 Immer 来 "mutate" state 
+  - Reducer 函数可以使用 Immer 来 mutate state 
   - 导出生成的 slice reducer 和 action creators
 - **在 React 组件中使用 React Redux `useSelector/useDispatch` hooks**
   - 使用 `useSelector` hook 从 store 读取数据 
