@@ -106,11 +106,11 @@ function mapStateToProps(state) {
 
 ### 使用 Selector 函数提取和转换数据
 
-我们强烈鼓励使用 selector 函数来帮助封装从 state tree 中特定位置提取值的过程。记忆化的 selector 函数在提高应用程序性能方面也发挥着关键作用（参见本页的以下部分和 [Advanced Usage: Computing Derived Data](https://redux.js.org/recipes/computing-derived-data) 页面了解为什么以及如何使用 selector 的更多详细信息。）
+我们强烈建议使用 selector 函数来封装从 state tree 特定位置取数的逻辑。缓存化的 selector 函数在提高应用程序性能方面也发挥着关键作用（参见本页的以下部分和 [Advanced Usage: Computing Derived Data](https://redux.js.org/recipes/computing-derived-data) 页面了解为什么以及如何使用 selector 的更多详细信息。）
 
 ### `mapStateToProps` 函数应该快速运行
 
-每当 store 发生变化时，所有连接组件的所有 `mapStateToProps` 函数都会运行。因此，你的 `mapStateToProps` 函数应该尽可能快地运行。这也意味着缓慢的 `mapStateToProps` 函数可能是应用程序中的潜在瓶颈。
+每当 store 发生变化时，所有 connect 过的组件，对应的所有 `mapStateToProps` 函数都会运行。因此，你的 `mapStateToProps` 函数应该尽可能快地运行。这也意味着缓慢的 `mapStateToProps` 函数可能是应用程序中的潜在瓶颈。
 
 作为“重塑数据”理念的一部分，`mapStateToProps` 函数经常需要以各种方式转换数据（例如过滤数组、将 ID 数组映射到其对应的对象，或从 Immutable.js 对象中提取普通 JS 值）。无论是在执行转换的成本方面，还是在组件是否因此重新渲染方面，这些转换通常都比较消耗性能。如果性能是一个问题，请确保仅在输入值发生更改时才运行这些转换。
 
@@ -135,7 +135,7 @@ React Redux 在内部实现了 `shouldComponentUpdate` 方法，这样当组件�
 
 React Redux 会进行浅层比较以查看 `mapStateToProps` 的结果是否发生了变化。每次都很容易意外地返回新的对象或数组引用，这会导致组件重新渲染，即使数据是相同的。
 
-许多常见操作会导致创建新的对象或数组引用：
+对于新的对象或者数组，推荐使用下面的 immutable 操作，返回新的引用
 
 - 使用 `someArray.map()` 或 `someArray.filter()` 创建新数组
 - 使用 `array.concat` 合并数组
