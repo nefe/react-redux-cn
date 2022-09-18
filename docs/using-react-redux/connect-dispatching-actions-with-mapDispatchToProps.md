@@ -8,37 +8,37 @@ description: 'Usage > mapDispatch: options for dispatching actions with connect'
 
 &nbsp;
 
-# Connect: Dispatching Actions with `mapDispatchToProps`
+# 连接：使用 `mapDispatchToProps` Dispatching Actions
 
-As the second argument passed in to `connect`, `mapDispatchToProps` is used for dispatching actions to the store.
+作为传递给 `connect` 的第二个参数，`mapDispatchToProps` 用于 dispatch actions 给 store。
 
-`dispatch` is a function of the Redux store. You call `store.dispatch` to dispatch an action.
-This is the only way to trigger a state change.
+`dispatch` 是 Redux store 的一个函数。你可以调用 `store.dispatch` 来 dispatch 一个 action。
+这是触发 state 变更的唯一方法。
 
-With React Redux, your components never access the store directly - `connect` does it for you.
-React Redux gives you two ways to let components dispatch actions:
+使用 React Redux，你的组件永远不会直接访问 store —— `connect` 会为你完成这个过程。
+React Redux 为你提供了两种让组件 dispatch actions 的方法：
 
-- By default, a connected component receives `props.dispatch` and can dispatch actions itself.
-- `connect` can accept an argument called `mapDispatchToProps`, which lets you create functions that dispatch when called, and pass those functions as props to your component.
+- 默认情况下，连接的组件接收 `props.dispatch` 并可以自行 dispatch actions。
+- `connect` 可以接受一个名为 `mapDispatchToProps` 的参数，它允许你创建在被调用时 dispatch 的函数，并将这些函数作为 props 传递给你的组件。
 
-The `mapDispatchToProps` functions are normally referred to as `mapDispatch` for short, but the actual variable name used can be whatever you want.
+`mapDispatchToProps` 函数通常简称为 `mapDispatch`，但实际使用的变量名可以是任何你想要的。
 
-## Approaches for Dispatching
+## Dispatch 的方法
 
-### Default: `dispatch` as a Prop
+### 默认：`dispatch` 作为 props
 
-If you don't specify the second argument to `connect()`, your component will receive `dispatch` by default. For example:
+如果你没有为 `connect()` 指定第二个参数，你的组件将默认接收 `dispatch`。例如：
 
 ```js
 connect()(MyComponent)
-// which is equivalent with
+// 等同于
 connect(null, null)(MyComponent)
 
-// or
-connect(mapStateToProps /** no second argument */)(MyComponent)
+// 或者
+connect(mapStateToProps /** 没有第二个参数 */)(MyComponent)
 ```
 
-Once you have connected your component in this way, your component receives `props.dispatch`. You may use it to dispatch actions to the store.
+一旦你以这种方式连接了你的组件，你的组件就会接收到 `props.dispatch`。你可以使用它向 store dispatch actions。
 
 ```js
 function Counter({ count, dispatch }) {
@@ -53,36 +53,36 @@ function Counter({ count, dispatch }) {
 }
 ```
 
-### Providing A `mapDispatchToProps` Parameter
+### 提供 `mapDispatchToProps` 参数
 
-Providing a `mapDispatchToProps` allows you to specify which actions your component might need to dispatch. It lets you provide action dispatching functions as props. Therefore, instead of calling `props.dispatch(() => increment())`, you may call `props.increment()` directly. There are a few reasons why you might want to do that.
+提供 `mapDispatchToProps` 允许你指定组件可能需要 dispatch 的一些 action。它允许你提供 dispatch action 的函数作为 props。因此，你可以直接调用 `props.increment()`，而不是调用 `props.dispatch(() => increment())`。你想要这样做的原因有几个。
 
-#### More Declarative
+#### 更具声明性
 
-First, encapsulating the dispatch logic into function makes the implementation more declarative.
-Dispatching an action and letting the Redux store handle the data flow is _how to_ implement the behavior, rather than _what_ it does.
+首先，将 dispatch 逻辑封装到函数中使得实现更具声明性。
+dispatch action 并让 Redux store 处理数据流是 _如何_ 实现行为，而不是它做了 _什么_。
 
-A good example would be dispatching an action when a button is clicked. Connecting the button directly probably doesn't make sense conceptually, and neither does having the button reference `dispatch`.
+一个很好的例子是在单击按钮时 dispatch 一个 action。直接连接按钮在概念上可能没有意义，按钮引用 `dispatch` 也没有意义。
 
 ```js
-// button needs to be aware of "dispatch"
+// button 需要注意 "dispatch"
 <button onClick={() => dispatch({ type: "SOMETHING" })} />
 
-// button unaware of "dispatch",
+// button 不需要注意 "dispatch",
 <button onClick={doSomething} />
 ```
 
-Once you've wrapped all our action creators with functions that dispatch the actions, the component is free of the need of `dispatch`.
-Therefore, **if you define your own `mapDispatchToProps`, the connected component will no longer receive `dispatch`.**
+一旦你用 dispatch actions 的函数包装了我们所有的 action creators，这个组件就不再需要 `dispatch` 了。
+因此，**如果你定义自己的 `mapDispatchToProps`，连接的组件将不再接收 `dispatch`。**
 
-#### Pass Down Action Dispatching Logic to ( Unconnected ) Child Components
+#### 将 dispatch action 的逻辑传递给（未连接的）子组件
 
-In addition, you also gain the ability to pass down the action dispatching functions to child ( likely unconnected ) components.
-This allows more components to dispatch actions, while keeping them "unaware" of Redux.
+此外，你还可以将 dispatch action 的函数传递给子（可能未连接）组件。
+这允许更多组件 dispatch actions，同时让它们“不察觉” Redux。
 
 ```jsx
-// pass down toggleTodo to child component
-// making Todo able to dispatch the toggleTodo action
+// 将 toggleTodo 向下传递给子组件
+// 使 Todo 能够 dispatch toggleTodo action
 const TodoList = ({ todos, toggleTodo }) => (
   <div>
     {todos.map((todo) => (
@@ -92,37 +92,37 @@ const TodoList = ({ todos, toggleTodo }) => (
 )
 ```
 
-This is what React Redux’s `connect` does — it encapsulates the logic of talking to the Redux store and lets you not worry about it. And this is what you should totally make full use of in your implementation.
+这就是 React Redux 的 `connect` 所做的工作——它封装了与 Redux store 对话的逻辑，让你不用关心它。这就是你应该在你的实现中充分利用的东西。
 
-## Two Forms of `mapDispatchToProps`
+## `mapDispatchToProps` 的两种形式
 
-The `mapDispatchToProps` parameter can be of two forms. While the function form allows more customization, the object form is easy to use.
+`mapDispatchToProps` 参数可以有两种形式。虽然函数形式允许更多的自定义，但对象形式易于使用。
 
-- **Function form**: Allows more customization, gains access to `dispatch` and optionally `ownProps`
-- **Object shorthand form**: More declarative and easier to use
+- **函数形式**：允许更多自定义，获得对 `dispatch` 和可选 `ownProps` 的访问权限
+- **对象简写形式**：更具声明性且更易于使用
 
-> ⭐ **Note:** We recommend using the object form of `mapDispatchToProps` unless you specifically need to customize dispatching behavior in some way.
+> ⭐ **注意：** 我们建议使用 `mapDispatchToProps` 的对象形式，除非你特别需要以某种方式自定义 dispatch 行为。
 
-## Defining `mapDispatchToProps` As A Function
+## 将 `mapDispatchToProps` 定义为函数
 
-Defining `mapDispatchToProps` as a function gives you the most flexibility in customizing the functions your component receives, and how they dispatch actions.
-You gain access to `dispatch` and `ownProps`.
-You may use this chance to write customized functions to be called by your connected components.
+将 `mapDispatchToProps` 定义为函数可以让你在自定义组件接收的函数以及它们如何 dispatch actions 方面具有最大的灵活性。
+你可以访问 `dispatch` 和 `ownProps`。
+你可以利用这个机会编写自定义函数以供你连接的组件调用。
 
-### Arguments
+### 参数
 
 1. **`dispatch`**
-2. **`ownProps` (optional)**
+2. **`ownProps`（可选）**
 
 **`dispatch`**
 
-The `mapDispatchToProps` function will be called with `dispatch` as the first argument.
-You will normally make use of this by returning new functions that call `dispatch()` inside themselves, and either pass in a plain action object directly or pass in the result of an action creator.
+`mapDispatchToProps` 函数将使用 `dispatch` 作为第一个参数被调用。
+你通常会通过返回在自身内部调用 `dispatch()` 的新函数来使用它，并直接传入一个普通的 action 对象或传入 action creator 的结果。
 
 ```js
 const mapDispatchToProps = (dispatch) => {
   return {
-    // dispatching plain actions
+    // dispatch 普通的 actions
     increment: () => dispatch({ type: 'INCREMENT' }),
     decrement: () => dispatch({ type: 'DECREMENT' }),
     reset: () => dispatch({ type: 'RESET' }),
@@ -130,28 +130,28 @@ const mapDispatchToProps = (dispatch) => {
 }
 ```
 
-You will also likely want to forward arguments to your action creators:
+你可能还希望将参数转发给你的 action creators：
 
 ```js
 const mapDispatchToProps = (dispatch) => {
   return {
-    // explicitly forwarding arguments
+    // 显式转发参数
     onClick: (event) => dispatch(trackClick(event)),
 
-    // implicitly forwarding arguments
+    // 隐式转发参数
     onReceiveImpressions: (...impressions) =>
       dispatch(trackImpressions(impressions)),
   }
 }
 ```
 
-**`ownProps` ( optional )**
+**`ownProps` （可选的）**
 
-If your `mapDispatchToProps` function is declared as taking two parameters, it will be called with `dispatch` as the first parameter and the `props` passed to the connected component as the second parameter, and will be re-invoked whenever the connected component receives new props.
+如果你的 `mapDispatchToProps` 函数被声明为带两个参数，它将以 `dispatch` 作为第一个参数调用，并将 `props` 作为第二个参数传递给连接的组件，并且每当连接的组件接收到新的 props 时都会重新调用。
 
-This means, instead of re-binding new `props` to action dispatchers upon component re-rendering, you may do so when your component's `props` change.
+这意味着，不需要在组件重新渲染时将新的 `props` 重新绑定到 action dispatchers，而是可以在组件的 `props` 变更时这样做。
 
-**Binds on component mount**
+**在组件 mount 时绑定**
 
 ```js
 render() {
@@ -165,7 +165,7 @@ const mapDispatchToProps = dispatch => {
 }
 ```
 
-**Binds on `props` change**
+**在 `props` 变更时绑定**
 
 ```js
 render() {
@@ -179,12 +179,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 ```
 
-### Return
+### 返回值
 
-Your `mapDispatchToProps` function should return a plain object:
+你的 `mapDispatchToProps` 函数应该返回一个普通对象：
 
-- Each field in the object will become a separate prop for your own component, and the value should normally be a function that dispatches an action when called.
-- If you use action creators ( as oppose to plain object actions ) inside `dispatch`, it is a convention to simply name the field key the same name as the action creator:
+- 对象中的每个字段都将成为你自己组件的单独 prop，并且该值通常应该是在调用时 dispatch action 的函数。
+- 如果你在 `dispatch` 中使用 action creators（与普通对象 actions 相反），则约定将字段键命名为与 action creator 相同的名称：
 
 ```js
 const increment = () => ({ type: 'INCREMENT' })
@@ -193,7 +193,7 @@ const reset = () => ({ type: 'RESET' })
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // dispatching actions returned by action creators
+    // action creators 返回的 dispatching actions
     increment: () => dispatch(increment()),
     decrement: () => dispatch(decrement()),
     reset: () => dispatch(reset()),
@@ -201,7 +201,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 ```
 
-The return of the `mapDispatchToProps` function will be merged to your connected component as props. You may call them directly to dispatch its action.
+`mapDispatchToProps` 函数的返回值将作为 props 合并到你连接的组件中。你可以直接调用它们来 dispatch 其 action。
 
 ```js
 function Counter({ count, increment, decrement, reset }) {
@@ -216,20 +216,20 @@ function Counter({ count, increment, decrement, reset }) {
 }
 ```
 
-(Full code of the Counter example is [in this CodeSandbox](https://codesandbox.io/s/yv6kqo1yw9))
+(Counter 示例的完整代码是 [in this CodeSandbox](https://codesandbox.io/s/yv6kqo1yw9))
 
-### Defining the `mapDispatchToProps` Function with `bindActionCreators`
+### 使用 `bindActionCreators` 定义 `mapDispatchToProps` 函数
 
-Wrapping these functions by hand is tedious, so Redux provides a function to simplify that.
+手动包装这些函数很乏味，因此 Redux 提供了一个函数来简化它。
 
-> `bindActionCreators` turns an object whose values are [action creators](https://redux.js.org/glossary#action-creator), into an object with the same keys, but with every action creator wrapped into a [`dispatch`](https://redux.js.org/api/store#dispatch) call so they may be invoked directly. See [Redux Docs on `bindActionCreators`](https://redux.js.org/api/bindactioncreators)
+> `bindActionCreators` 将值为 [action creators](https://redux.js.org/glossary#action-creator) 的对象转换为具有相同键的对象，但每个 action creator 都包裹在 [`dispatch`](https://redux.js.org/api/store#dispatch) 中，因此可以直接调用它们。请参阅 [关于 `bindActionCreators` 的 Redux 文档](https://redux.js.org/api/bindactioncreators)
 
-`bindActionCreators` accepts two parameters:
+`bindActionCreators` 接收两个参数：
 
-1. A **`function`** (an action creator) or an **`object`** (each field an action creator)
+1. **`function`** (an action creator) 或者 **`object`** (每个字段都是一个 action creator)
 2. `dispatch`
 
-The wrapper functions generated by `bindActionCreators` will automatically forward all of their arguments, so you don't need to do that by hand.
+`bindActionCreators` 生成的包装函数将自动转发它们的所有参数，因此你无需手动执行此操作。
 
 ```js
 import { bindActionCreators } from 'redux'
@@ -238,16 +238,16 @@ const increment = () => ({ type: 'INCREMENT' })
 const decrement = () => ({ type: 'DECREMENT' })
 const reset = () => ({ type: 'RESET' })
 
-// binding an action creator
-// returns (...args) => dispatch(increment(...args))
+// 绑定一个 action creator
+// 返回 (...args) => dispatch(increment(...args))
 const boundIncrement = bindActionCreators(increment, dispatch)
 
-// binding an object full of action creators
+// 绑定一个全是 action creators 的对象
 const boundActionCreators = bindActionCreators(
   { increment, decrement, reset },
   dispatch
 )
-// returns
+// 返回
 // {
 //   increment: (...args) => dispatch(increment(...args)),
 //   decrement: (...args) => dispatch(decrement(...args)),
@@ -255,7 +255,7 @@ const boundActionCreators = bindActionCreators(
 // }
 ```
 
-To use `bindActionCreators` in our `mapDispatchToProps` function:
+在我们的 `mapDispatchToProps` 函数中使用 `bindActionCreators`：
 
 ```js
 import { bindActionCreators } from 'redux'
@@ -265,13 +265,13 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ increment, decrement, reset }, dispatch)
 }
 
-// component receives props.increment, props.decrement, props.reset
+// 组件接收 props.increment, props.decrement, props.reset
 connect(null, mapDispatchToProps)(Counter)
 ```
 
-### Manually Injecting `dispatch`
+### 手动注入 `dispatch`
 
-If the `mapDispatchToProps` argument is supplied, the component will no longer receive the default `dispatch`. You may bring it back by adding it manually to the return of your `mapDispatchToProps`, although most of the time you shouldn’t need to do this:
+如果提供了 `mapDispatchToProps` 参数，组件将不再接收默认的 `dispatch`。你可以通过手动将其添加到你的 `mapDispatchToProps` 的返回中来恢复它，尽管大多数时候你不需要这样做：
 
 ```js
 import { bindActionCreators } from 'redux'
@@ -285,25 +285,25 @@ function mapDispatchToProps(dispatch) {
 }
 ```
 
-## Defining `mapDispatchToProps` As An Object
+## 将 `mapDispatchToProps` 定义为对象
 
-You’ve seen that the setup for dispatching Redux actions in a React component follows a very similar process: define an action creator, wrap it in another function that looks like `(…args) => dispatch(actionCreator(…args))`, and pass that wrapper function as a prop to your component.
+你已经看到在 React 组件中 dispatch Redux actions 的设置遵循一个非常相似的过程：定义一个 action creator，将其包装在另一个看起来像 `(…args) => dispatch(actionCreator(…args))` 的函数中，并将该包装函数作为 props 传递给你的组件。
 
-Because this is so common, `connect` supports an “object shorthand” form for the `mapDispatchToProps` argument: if you pass an object full of action creators instead of a function, `connect` will automatically call `bindActionCreators` for you internally.
+因为这很常见，`connect` 支持 `mapDispatchToProps` 参数的“对象简写”形式：如果你传递一个充满 action creators 的对象而不是一个函数，`connect` 将在内部自动为你调用 `bindActionCreators`。
 
-**We recommend always using the “object shorthand” form of `mapDispatchToProps`, unless you have a specific reason to customize the dispatching behavior.**
+**我们建议始终使用 `mapDispatchToProps` 的“对象简写”形式，除非你有特定原因需要自定义 dispatch 行为。**
 
-Note that:
+注意：
 
-- Each field of the `mapDispatchToProps` object is assumed to be an action creator
-- Your component will no longer receive `dispatch` as a prop
+- `mapDispatchToProps` 对象的每个字段都假定为一个 action creator
+- 你的组件将不再接收 `dispatch` 作为 prop
 
 ```js
-// React Redux does this for you automatically:
+// React Redux 自动替你进行了该操作:
 ;(dispatch) => bindActionCreators(mapDispatchToProps, dispatch)
 ```
 
-Therefore, our `mapDispatchToProps` can simply be:
+因此，`mapDispatchToProps` 可以简化为：
 
 ```js
 const mapDispatchToProps = {
@@ -313,7 +313,7 @@ const mapDispatchToProps = {
 }
 ```
 
-Since the actual name of the variable is up to you, you might want to give it a name like `actionCreators`, or even define the object inline in the call to `connect`:
+由于变量的实际名称由你决定，你可能希望给它一个名称，如 `actionCreators`，或者甚至在对 `connect` 的调用中定义内联对象：
 
 ```js
 import { increment, decrement, reset } from './counterActions'
@@ -326,38 +326,38 @@ const actionCreators = {
 
 export default connect(mapState, actionCreators)(Counter)
 
-// or
+// 或者
 export default connect(mapState, { increment, decrement, reset })(Counter)
 ```
 
-## Common Problems
+## 常见问题
 
-### Why is my component not receiving `dispatch`?
+### 为什么我的组件没有接收 `dispatch`？
 
-Also known as
+同样如
 
 ```js
 TypeError: this.props.dispatch is not a function
 ```
 
-This is a common error that happens when you try to call `this.props.dispatch` , but `dispatch` is not injected to your component.
+这是当你尝试调用 `this.props.dispatch` 时发生的常见错误，因为 `dispatch` 没有注入到你的组件中。
 
-`dispatch` is injected to your component _only_ when:
+`dispatch` _仅在_ 以下情况下被注入到你的组件中：
 
-**1. You do not provide `mapDispatchToProps`**
+**1. 你未提供 `mapDispatchToProps`**
 
-The default `mapDispatchToProps` is simply `dispatch => ({ dispatch })`. If you do not provide `mapDispatchToProps`, `dispatch` will be provided as mentioned above.
+默认的 `mapDispatchToProps` 只是 `dispatch => ({ dispatch })`。如果你未提供 `mapDispatchToProps`，则会如上所述提供 `dispatch`。
 
-In another words, if you do:
+换句话说，如果你：
 
 ```js
-// component receives `dispatch`
-connect(mapStateToProps /** no second argument*/)(Component)
+// 组件接收 `dispatch`
+connect(mapStateToProps /** 没有第二个参数 */)(Component)
 ```
 
-**2. Your customized `mapDispatchToProps` function return specifically contains `dispatch`**
+**2. 你的自定义 `mapDispatchToProps` 函数返回明确地包含 `dispatch`**
 
-You may bring back `dispatch` by providing your customized `mapDispatchToProps` function:
+你可以通过提供自定义的 `mapDispatchToProps` 函数来返回 `dispatch`：
 
 ```js
 const mapDispatchToProps = (dispatch) => {
@@ -370,7 +370,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 ```
 
-Or alternatively, with `bindActionCreators`:
+或者使用 `bindActionCreators`：
 
 ```js
 import { bindActionCreators } from 'redux'
@@ -383,29 +383,29 @@ function mapDispatchToProps(dispatch) {
 }
 ```
 
-See [this error in action in Redux’s GitHub issue #255](https://github.com/reduxjs/react-redux/issues/255).
+请参阅 [this error in action in Redux’s GitHub issue #255](https://github.com/reduxjs/react-redux/issues/255)。
 
-There are discussions regarding whether to provide `dispatch` to your components when you specify `mapDispatchToProps` ( [Dan Abramov’s response to #255](https://github.com/reduxjs/react-redux/issues/255#issuecomment-172089874) ). You may read them for further understanding of the current implementation intention.
+这有一个关于当你指定 `mapDispatchToProps` 时是否为你的组件提供 `dispatch` 的讨论 ([Dan Abramov’s response to #255](https://github.com/reduxjs/react-redux/issues/255#issuecomment-172089874) )。你可以阅读它们以进一步了解当前的实施意图。
 
-### Can I `mapDispatchToProps` without `mapStateToProps` in Redux?
+### 我可以在 Redux 中不带 `mapStateToProps` 进行 `mapDispatchToProps` 吗？
 
-Yes. You can skip the first parameter by passing `undefined` or `null`. Your component will not subscribe to the store, and will still receive the dispatch props defined by `mapDispatchToProps`.
+是的。你可以通过传递 `undefined` 或 `null` 来跳过第一个参数。你的组件不会订阅 store，仍然会收到 `mapDispatchToProps` 定义的 dispatch props。
 
 ```js
 connect(null, mapDispatchToProps)(MyComponent)
 ```
 
-### Can I call `store.dispatch`?
+### 我能调用 `store.dispatch` 吗？
 
-It's an anti-pattern to interact with the store directly in a React component, whether it's an explicit import of the store or accessing it via context (see the [Redux FAQ entry on store setup](https://redux.js.org/faq/storesetup#can-or-should-i-create-multiple-stores-can-i-import-my-store-directly-and-use-it-in-components-myself) for more details). Let React Redux’s `connect` handle the access to the store, and use the `dispatch` it passes to the props to dispatch actions.
+这是在 React 组件中直接与 store 交互是一种反模式，无论是显式导入 store 还是通过上下文访问它（参见 [Redux FAQ entry on store setup](https://redux.js.org/faq/storesetup#can-or-should-i-create-multiple-stores-can-i-import-my-store-directly-and-use-it-in-components-myself) 了解更多详情）。让 React Redux 的 `connect` 处理对 store 的访问，并使用它传递给 props 的 `dispatch` 来 dispatch actions。
 
-## Links and References
+## 链接和参考
 
-**Tutorials**
+**教程**
 
 - [You Might Not Need the `mapDispatchToProps` Function](https://daveceddia.com/redux-mapdispatchtoprops-object-form/)
 
-**Related Docs**
+**相关文档**
 
 - [Redux Doc on `bindActionCreators`](https://redux.js.org/api/bindactioncreators)
 
