@@ -31,7 +31,7 @@ hide_title: true
 
 本页将重点介绍如何使用 Redux Toolkit 和你将使用的主要 API 设置 Redux 应用程序。有关 Redux 是什么，它是如何工作的，以及如何使用 Redux Toolkit 的完整示例说明，请参阅 [Redux 核心文档教程](https://redux.js.org/tutorials/index)。
 
-对于本教程，我们假设你同时使用 Redux Toolkit 和 React Redux，因为这是标准的 Redux 使用模式。这些示例基于[典型的Create-React-App 文件夹结构](https://create-react-app.dev/docs/folder-structure) 其中所有应用程序代码都在一个 `src` 中，但这些模式可以适应您正在使用的任何项目或文件夹设置。
+对于本教程，我们假设你同时使用 Redux Toolkit 和 React Redux，因为这是标准的 Redux 使用模式。这些示例基于[典型的Create-React-App 文件夹结构](https://create-react-app.dev/docs/folder-structure) 其中所有应用程序代码都在一个 `src` 中，但这些模式可以适应你正在使用的任何项目或文件夹设置。
 
 [Create-React-App 的 Redux+JS 模版](https://github.com/reduxjs/cra-template-redux)已经配置了相同的项目设置。
 
@@ -90,7 +90,7 @@ root.render(
 
 创建 slice 需要一个字符串名称来标识 slice，一个初始 state 值，以及一个或多个 reducer 函数来定义如何更新 state。创建 slice 后，我们可以导出生成的 Redux action creators 和整个 slice reducer 函数。
 
-Redux 要求[我们通过制作数据副本和更新副本来不可变地写入所有的 state 更新](https://redux.js.org/tutorials/fundamentals/part-2-concepts-data-flow#immutability)。但是，Redux Toolkit 的 `createSlice` 和 `createReducer` API 在内部使用 [Immer](https://immerjs.github.io/immer/) 允许我们 [编写 mutating 更新逻辑从而成为正确的不可变更新](https://redux.js.org/tutorials/fundamentals/part-8-modern-redux#immutable-updates-with-immer)。
+Redux 要求[我们通过制作数据副本和更新副本来不可变地写入所有的 state 更新](https://redux.js.org/tutorials/fundamentals/part-2-concepts-data-flow#immutability)。但是，Redux Toolkit 的 `createSlice` 和 `createReducer` API 在内部使用 [Immer](https://immerjs.github.io/immer/) 允许我们[编写 mutating 更新逻辑从而成为正确的不可变更新](https://redux.js.org/tutorials/fundamentals/part-8-modern-redux#immutable-updates-with-immer)。
 
 ```js title="features/counter/counterSlice.js"
 import { createSlice } from '@reduxjs/toolkit'
@@ -125,7 +125,7 @@ export default counterSlice.reducer
 
 ### 添加 Slice Reducers 到 Store
 
-接下来，我们需要从 counter slice 中导入 reducer 函数并将其添加到我们的 store 中。通过在 `reducers` 参数中定义一个字段，我们告诉 store 使用 这个 slice reducer 函数来处理对该 state 的所有更新。
+接下来，我们需要从 counter slice 中导入 reducer 函数并将其添加到我们的 store 中。通过在 `reducers` 参数中定义一个字段，我们告诉 store 使用这个 slice reducer 函数来处理该 state 的所有更新。
 
 ```js title="app/store.js"
 import { configureStore } from '@reduxjs/toolkit'
@@ -142,7 +142,7 @@ export default configureStore({
 
 ### 在 React 组件中使用 Redux State 和 Actions
 
-现在我们可以使用 React Redux hooks 让 React 组件与 Redux store 交互。我们可以使用 `useSelector` 从 store 中读取数据，并使用 `useDispatch` dispatch actions。创建一个包含 `<Counter>` 组件的 `src/features/counter/Counter.js`文件，然后将该组件导入 `App.js` 并在 `<App>` 中渲染它。
+现在我们可以使用 React Redux hooks 让 React 组件与 Redux store 交互。我们可以使用 `useSelector` 从 store 中读取数据，并使用 `useDispatch` dispatch actions。创建一个包含 `<Counter>` 组件的 `src/features/counter/Counter.js` 文件，然后将该组件导入 `App.js` 并在 `<App>` 中渲染它。
 
 ```jsx title="features/counter/Counter.js"
 import React from 'react'
@@ -176,20 +176,20 @@ export function Counter() {
 }
 ```
 
-现在任何时候单击 Increment 和 Decrement 按钮：
+从现在起单击 Increment 和 Decrement 按钮：
 
 - 对应的 Redux action 会 dispatch store
-- 计数 slice reducer 将看到 actions 并更新其 state
+- 计数 slice reducer 将看到 actions 更新其 state
 - `<Counter>` 组件将从 store 中看到新的 state 值，并使用新的数据重新渲染自己
 
 ## 你学到了什么
 
-这是关于如何通过 React 设置和使用 Redux Toolkit 的简要概述。重新总结一下细节。
+这是关于如何通过 React 设置，使用 Redux Toolkit 的简要概述。重新总结一下细节。
 
 :::tip 总结
 
 - **使用 `configureStore` 创建 Redux store**
-  - `configureStore` 接受 `reducer` 函数作为命名参数
+  - `configureStore` 接收 `reducer` 函数作为命名参数
   - `configureStore` 使用良好的默认设置自动设置 store
 - **为 React 应用程序组件提供 Redux store**
   - 在你的 `<App />` 外层包裹一个 React Redux `<Provider>` 组件
