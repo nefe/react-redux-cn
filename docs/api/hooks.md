@@ -10,28 +10,28 @@ description: 'API > Hooks: the `useSelector` and `useDispatch` hooks`'
 
 # Hooks
 
-React's new ["hooks" APIs](https://reactjs.org/docs/hooks-intro.html) give function components the ability to use local component state, execute side effects, and more. React also lets us write [custom hooks](https://reactjs.org/docs/hooks-custom.html), which let us extract reusable hooks to add our own behavior on top of React's built-in hooks.
+React 的 ["hooks" API](https://reactjs.org/docs/hooks-intro.html) 为函数组件提供了使用本地组件 state、执行副作用以及更多方面的能力。React 还允许我们编写 [自定义 hooks](https://reactjs.org/docs/hooks-custom.html)，让我们提取可复用的 hooks，在 React 的内置 hooks 顶层添加我们自己的行为。
 
-React Redux includes its own custom hook APIs, which allow your React components to subscribe to the Redux store and dispatch actions.
+React Redux 包括了它自己的自定义 hook API，它允许你的 React 组件订阅 Redux store、dispatch action。
 
-:::tip
+:::tip 提示
 
-**We recommend using the React-Redux hooks API as the default approach in your React components.**
+**我们推荐你在 React 组件中使用 React-Redux hooks API 作为默认方法。**
 
-The existing `connect` API still works and will continue to be supported, but the hooks API is simpler and works better with TypeScript.
+现有的 `connect` API 仍然有效，并将继续得到支持，但 hooks API 更简单，与 TypeScript 配合得更好。
 
 :::
 
-These hooks were first added in v7.1.0.
+hooks 在 7.1.0 版本首次添加
 
-## Using Hooks in a React Redux App
+## 在 React Redux 应用中使用 hooks
 
-As with `connect()`, you should start by wrapping your entire application in a `<Provider>` component to make the store available throughout the component tree:
+和 `connect()` 一样，你应该先用 `<Provider>` 组件来包裹你的整个应用程序，以使 store 在整个组件树中可用。
 
 ```jsx
 const store = createStore(rootReducer)
 
-// As of React 18
+// 在 React 18 中
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
@@ -40,7 +40,7 @@ root.render(
 )
 ```
 
-From there, you may import any of the listed React Redux hooks APIs and use them within your function components.
+从这里，你可以导入任何列出的 React Redux hooks API，并在你的函数组件中使用它们。
 
 ## `useSelector()`
 
@@ -48,63 +48,56 @@ From there, you may import any of the listed React Redux hooks APIs and use them
 const result: any = useSelector(selector: Function, equalityFn?: Function)
 ```
 
-Allows you to extract data from the Redux store state, using a selector function.
+允许你使用一个 selector 函数从 Redux store state 中提取数据。
 
-:::info
+:::info 说明
 
-The selector function should be [pure](https://en.wikipedia.org/wiki/Pure_function) since it is potentially executed multiple times and at arbitrary points in time.
-
-:::
-
-The selector is approximately equivalent to the [`mapStateToProps` argument to `connect`](../using-react-redux/connect-extracting-data-with-mapStateToProps.md) conceptually. The selector will be called with the entire Redux store state as its only argument. The selector will be run whenever the function component renders (unless its reference hasn't changed since a previous render of the component so that a cached result can be returned by the hook without re-running the selector). `useSelector()` will also subscribe to the Redux store, and run your selector whenever an action is dispatched.
-
-However, there are some differences between the selectors passed to `useSelector()` and a `mapState` function:
-
-- The selector may return any value as a result, not just an object. The return value of the selector will be used as the return value of the `useSelector()` hook.
-- When an action is dispatched, `useSelector()` will do a reference comparison of the previous selector result value and the current result value. If they are different, the component will be forced to re-render. If they are the same, the component will not re-render.
-- The selector function does _not_ receive an `ownProps` argument. However, props can be used through closure (see the examples below) or by using a curried selector.
-- Extra care must be taken when using memoizing selectors (see examples below for more details).
-- `useSelector()` uses strict `===` reference equality checks by default, not shallow equality (see the following section for more details).
-
-:::info
-
-There are potential edge cases with using props in selectors that may cause issues. See the [Usage Warnings](#usage-warnings) section of this page for further details.
+selector 函数应该是 [纯函数](https://en.wikipedia.org/wiki/Pure_function)，因为它有可能在任意时间点上多次执行。
 
 :::
 
-You may call `useSelector()` multiple times within a single function component. Each call to `useSelector()` creates an individual subscription to the Redux store. Because of the React update batching behavior used in React Redux v7, a dispatched action that causes multiple `useSelector()`s in the same component to return new values _should_ only result in a single re-render.
+selector 在概念上大约等同于 [`mapStateToProps` argument to `connect`](../using-react-redux/connect-extracting-data-with-mapStateToProps.md)。selector 将以整个 Redux store state 作为唯一的参数被调用。每当函数组件渲染时，selector 就会被运行（除非在组件的前一次渲染后引用没有改变，这样 hooks 就会返回缓存的结果，而不是重新运行 selector）。`useSelector()` 也会订阅 Redux store，每当有 action 被 dispatched 时就会运行 selector。
 
-### Equality Comparisons and Updates
+然而，传递给 `useSelector()` 和 `mapState` 函数的 selector 之间有一些区别。
 
-When the function component renders, the provided selector function will be called and its result will be returned
-from the `useSelector()` hook. (A cached result may be returned by the hook without re-running the selector if it's the same function reference as on a previous render of the component.)
+- selector 返回的结果可以是任何值，而不仅仅是一个对象。selector 的返回值将被作为 `useSelector()` hook 的返回值被使用。
+- 当 dispatch 一个 action 时，`useSelector()` 将对 selector 的前一个结果值和当前的结果值做一个引用比较。如果它们不同，该组件将被强制重新渲染。如果它们相同，组件将不会重新渲染。
+- selector 函数 _不接收_ `ownProps` 参数。然而，可以通过闭包（见下面的例子），或者通过使用 curried selector 来使用 props。
+- 在使用缓存化的 selector 时必须格外小心（详见下面的例子）。
+- `useSelector()` 默认使用严格的 `===` 引用全等检查，而不是浅层全等比较（详见下节）。
 
-However, when an action is dispatched to the Redux store, `useSelector()` only forces a re-render if the selector result
-appears to be different than the last result. The default comparison is a strict `===` reference
-comparison. This is different than `connect()`, which uses shallow equality checks on the results of `mapState` calls
-to determine if re-rendering is needed. This has several implications on how you should use `useSelector()`.
+:::info 说明
 
-With `mapState`, all individual fields were returned in a combined object. It didn't matter if the return object was
-a new reference or not - `connect()` just compared the individual fields. With `useSelector()`, returning a new object
-every time will _always_ force a re-render by default. If you want to retrieve multiple values from the store, you can:
+在 selector 中使用 props 会导致许多潜在的边缘 case，这可能会造成问题。请参阅本页面的 [使用注意事项](#usage-warnings) 部分以了解更多细节。
 
-- Call `useSelector()` multiple times, with each call returning a single field value
-- Use Reselect or a similar library to create a memoized selector that returns multiple values in one object, but
-  only returns a new object when one of the values has changed.
-- Use the `shallowEqual` function from React-Redux as the `equalityFn` argument to `useSelector()`, like:
+:::
+
+你可以在一个函数组件中多次调用 `useSelector()`。每调用一次 `useSelector()` 都会在 Redux store 中创建一个单独的订阅。由于 React Redux v7 中使用的是 React 更新批处理行为，因此 dispatch action 引发的同一组件中多次调用 `useSelector()` 来返回新值的过程只 _会_ 重新渲染一次。
+
+### 全等比较和更新
+
+当函数组件渲染时，给定的 selector 函数将被调用，`useSelector()` hook 会返回其结果。(如果与前一次组件渲染对比，两次是相同的函数引用，hook 不会重新调用 selector，而是会返回缓存的结果)。
+
+然而，当 dispatch 一个 action 到 Redux store 时，只有 selector 的结果与上一次的结果不同时，`useSelector()` 才会强制重新渲染。默认的对比方式是严格的 `===` 引用比较。这与 `connect()` 不同，后者对 `mapState` 的调用结果进行浅层全等对比，以此决定是否需要重新渲染。这对你应该如何使用 `useSelector()` 有一些影响。
+
+有了 `mapState`，所有单独的字段都在一个组合对象中返回。返回的对象是否是一个新的引用并不重要—— `connect()` 只是比较各个字段。使用 `useSelector()`，默认情况下每次返回一个新的对象 _都会_ 强制重新渲染。如果你想从 store 中获取多个值，你可以：
+
+- 多次调用 `useSelector()`，每次调用返回一个字段值
+- 使用 Reselect 或类似的库来创建一个记忆化的 selector，在一个对象中返回多个值，但是只有当其中一个值发生变化时才返回一个新的对象。
+- 使用 React-Redux 的 `shallowEqual` 函数作为 `useSelector()` 的 `equalityFn` 参数，比如：
 
 ```js
 import { shallowEqual, useSelector } from 'react-redux'
 
-// later
+// 随后
 const selectedData = useSelector(selectorReturningObject, shallowEqual)
 ```
 
-The optional comparison function also enables using something like Lodash's `_.isEqual()` or Immutable.js's comparison capabilities.
+可选的比较函数也可以使用类似 Lodash 的 `_.isEqual()` 或 Immutable.js 的比较功能。
 
-### `useSelector` Examples
+### `useSelector` 示例
 
-Basic usage:
+基本用法：
 
 ```jsx
 import React from 'react'
@@ -116,7 +109,7 @@ export const CounterComponent = () => {
 }
 ```
 
-Using props via closure to determine what to extract:
+通过闭包的方式使用 props 来确定提取的内容：
 
 ```jsx
 import React from 'react'
@@ -128,11 +121,11 @@ export const TodoListItem = (props) => {
 }
 ```
 
-#### Using memoizing selectors
+#### 使用记忆化的 selectors
 
-When using `useSelector` with an inline selector as shown above, a new instance of the selector is created whenever the component is rendered. This works as long as the selector does not maintain any state. However, memoizing selectors (e.g. created via `createSelector` from `reselect`) do have internal state, and therefore care must be taken when using them. Below you can find typical usage scenarios for memoizing selectors.
+如上所示，当使用 `useSelector` 与内联 selector 时，每当组件被渲染时，就会创建一个新的 selector 实例。只要 selector 不维护任何 state，这就有效。然而，记忆化的 selector（例如通过 `reselect` 的 `createSelector` 创建）确实有内部 state，因此在使用它们时必须小心。你可以在下面找到记忆化 selector 的典型使用场景。
 
-When the selector does only depend on the state, simply ensure that it is declared outside of the component so that the same selector instance is used for each render:
+当 selector 只依赖于 state 时，只需确保它在组件之外被声明，这样每次渲染都会使用同一个 selector 实例。
 
 ```jsx
 import React from 'react'
@@ -159,7 +152,7 @@ export const App = () => {
 }
 ```
 
-The same is true if the selector depends on the component's props, but will only ever be used in a single instance of a single component:
+如果 selector 依赖于组件的 props，情况也是如此，但只会在单个组件的单个实例中使用：
 
 ```jsx
 import React from 'react'
@@ -191,7 +184,7 @@ export const App = () => {
 }
 ```
 
-However, when the selector is used in multiple component instances and depends on the component's props, you need to ensure that each component instance gets its own selector instance (see [here](https://github.com/reduxjs/reselect#q-can-i-share-a-selector-across-multiple-component-instances) for a more thorough explanation of why this is necessary):
+但是，当 selector 用于多个组件实例并依赖于组件的 props 时，你需要确保每个组件实例都有自己的 selector 实例（请参阅[此处](https://github.com/reduxjs/reselect#q-can-i-share-a-selector-across-multiple-component-instances)以更全面地了解为什么有必要这样做）：
 
 ```jsx
 import React, { useMemo } from 'react'
@@ -234,8 +227,7 @@ export const App = () => {
 const dispatch = useDispatch()
 ```
 
-This hook returns a reference to the `dispatch` function from the Redux store. You may use it to dispatch actions as needed.
-
+这个 hook 返回一个对 Redux store 中的 `dispatch` 函数的引用。你可以按需使用它来 dispatch action。
 #### Examples
 
 ```jsx
@@ -256,7 +248,7 @@ export const CounterComponent = ({ value }) => {
 }
 ```
 
-When passing a callback using `dispatch` to a child component, you may sometimes want to memoize it with [`useCallback`](https://reactjs.org/docs/hooks-reference.html#usecallback). _If_ the child component is trying to optimize render behavior using `React.memo()` or similar, this avoids unnecessary rendering of child components due to the changed callback reference.
+当使用 `dispatch` 向子组件传递回调时，有时你可能想用 [`useCallback`](https://reactjs.org/docs/hooks-reference.html#usecallback) 对其进行储存。_如果_ 子组件试图使用 `React.memo()` 或类似的方法来优化渲染行为，这可以避免子组件由于回调引用变更而导致的不必要渲染。
 
 ```jsx
 import React, { useCallback } from 'react'
@@ -282,13 +274,12 @@ export const MyIncrementButton = React.memo(({ onIncrement }) => (
 ))
 ```
 
-:::info
+:::info 说明
 
-The `dispatch` function reference will be stable as long as the same store instance is being passed to the `<Provider>`.
-Normally, that store instance never changes in an application.
+只要传递给 `<Provider>` 的是同一个 store 实例，`dispatch` 函数引用就是稳定的。
+通常情况下，该 store 实例在应用程序中不会改变。
 
-However, the React hooks lint rules do not know that `dispatch` should be stable, and will warn that the `dispatch` variable
-should be added to dependency arrays for `useEffect` and `useCallback`. The simplest solution is to do just that:
+然而，React hooks 的 lint 规则并不知道 `dispatch` 应该是稳定的，并且会警告说 `dispatch` 变量应该被添加到 `useEffect` 和 `useCallback` 的依赖数组中。最简单的解决方案就是：
 
 ```js
 export const Todos = () => {
@@ -296,10 +287,10 @@ export const Todos = () => {
 
   useEffect(() => {
     dispatch(fetchTodos())
-    // highlight-start
-    // Safe to add dispatch to the dependencies array
+    // 高亮开始
+    // 安全地将 dispatch 添加到依赖数组中
   }, [dispatch])
-  // highlight-end
+  // 高亮结束
 }
 ```
 
@@ -311,11 +302,11 @@ export const Todos = () => {
 const store = useStore()
 ```
 
-This hook returns a reference to the same Redux store that was passed in to the `<Provider>` component.
+这个 hook 返回一个 Redux store 引用，该 store 与传递给 `<Provider>` 组件的 store 相同。
 
-This hook should probably not be used frequently. Prefer `useSelector()` as your primary choice. However, this may be useful for less common scenarios that do require access to the store, such as replacing reducers.
+不应该被频繁使用这个 hook。宁愿将 `useSelector()` 作为主要选择。然而，对于少量需要访问 store 的场景而言，例如替换 reducer，这个 hook 很有用。
 
-#### Examples
+#### 示例
 
 ```js
 import React from 'react'
@@ -324,17 +315,17 @@ import { useStore } from 'react-redux'
 export const CounterComponent = ({ value }) => {
   const store = useStore()
 
-  // EXAMPLE ONLY! Do not do this in a real app.
-  // The component will not automatically update if the store state changes
+  // 仅仅是示例！不要在实际的应用中这么做。
+  // 当 store state 变更时，组件不会自动更新
   return <div>{store.getState()}</div>
 }
 ```
 
-## Custom context
+## 自定义 context
 
-The `<Provider>` component allows you to specify an alternate context via the `context` prop. This is useful if you're building a complex reusable component, and you don't want your store to collide with any Redux store your consumers' applications might use.
+`<Provider>` 组件允许你通过 `context` prop 指定一个备用的上下文。如果你正在构建一个复杂的、可复用的组件，并且你不希望 store 与 consumer 应用程序可能使用的任何 Redux store 相冲突，那么这很有用。
 
-To access an alternate context via the hooks API, use the hook creator functions:
+要通过各种 hook API 访问备用上下文，请使用 hook creator 函数：
 
 ```js
 import React from 'react'
@@ -347,7 +338,7 @@ import {
 
 const MyContext = React.createContext(null)
 
-// Export your custom hooks if you wish to use them in other files.
+// 如果想在其他文件使用自定义 hook，导出这些自定义 hook。
 export const useStore = createStoreHook(MyContext)
 export const useDispatch = createDispatchHook(MyContext)
 export const useSelector = createSelectorHook(MyContext)
@@ -363,50 +354,50 @@ export function MyProvider({ children }) {
 }
 ```
 
-## Usage Warnings
+## 使用注意事项
 
-### Stale Props and "Zombie Children"
+### Stale Props 和 "Zombie Children"
 
-:::info
+:::info 说明
 
-The React-Redux hooks API has been production-ready since we released it in v7.1.0, and **we recommend using the hooks API as the default approach in your components**. However, there are a couple of edge cases that can occur, and **we're documenting those so that you can be aware of them**.
+自从 v7.1.0 中发布了 hook API，React-Redux 的 hook API 就已经可以被引入生产环境，**我们推荐你在组件中使用 hook API 作为默认方法**。然而，这可能会导致一些边缘情况，**我们将这些情况记录下来，以便你能了解它们**。
 
-In practice, these are a rare concern - we've received far more comments about these being in the docs than actual reports of these being a real problem in an app.
+实际情况下，这些问题比较罕见——我们收到的关于文档中存在这些问题的评论远远多于关于这些问题在应用中成为实际问题的实际报告。
 
 :::
 
-One of the most difficult aspects of React Redux's implementation is ensuring that if your `mapStateToProps` function is defined as `(state, ownProps)`, it will be called with the "latest" props every time. Up through version 4, there were recurring bugs reported involving edge case situations, such as errors thrown from a `mapState` function for a list item whose data had just been deleted.
+React Redux 实现中最困难的方面之一是明确你的 `mapStateToProps` 函数是否被定义为 `(state, ownProps)`，它每次都会以"最新的" props 被调用。直到第 4 个版本，经常有涉及边缘情况的错误报告，例如从 `mapState` 函数中抛出列表项的数据刚被删除之类的错误。
 
-Starting with version 5, React Redux has attempted to guarantee that consistency with `ownProps`. In version 7, that is implemented using a custom `Subscription` class internally in `connect()`, which forms a nested hierarchy. This ensures that connected components lower in the tree will only receive store update notifications once the nearest connected ancestor has been updated. However, this relies on each `connect()` instance overriding part of the internal React context, supplying its own unique `Subscription` instance to form that nesting, and rendering the `<ReactReduxContext.Provider>` with that new context value.
+从版本 5 开始，React Redux 试图用 `ownProps` 来保证这种一致性。在第 7 版中，在 `connect()` 内部使用自定义的 `Subscription` 类实现这个过程，它形成了一个嵌套结构。这确保树中较低层的连接组件只有在最近的连接祖先被更新后才会收到 store 更新通知。然而，这依赖于每个 `connect()` 实例覆盖内部 React 上下文的一部分，并提供自己独特的 `Subscription` 实例以形成嵌套，并使用新上下文的值渲染 `<ReactReduxContext.Provider>`。
 
-With hooks, there is no way to render a context provider, which means there's also no nested hierarchy of subscriptions. Because of this, the "stale props" and "zombie child" issues may potentially re-occur in an app that relies on using hooks instead of `connect()`.
+有了 hook，就没有办法渲染一个上下文 provider，这意味着也没有嵌套的订阅层次结构。正因为如此，应用中的"stale props"和"zombie child"问题有可能在使用 hook 而不是 `connect()` 时重新出现。
 
-Specifically, "stale props" means any case where:
+具体来说，"stale props" 是指当下述任何情况发生时：
 
-- a selector function relies on this component's props to extract data
-- a parent component _would_ re-render and pass down new props as a result of an action
-- but this component's selector function executes before this component has had a chance to re-render with those new props
+- 一个 selector 函数依赖于这个组件的 props 来提取数据
+- 父级组件 _会_ 重新渲染并向下传递新的 props 作为 action 的结果
+- 但这个组件的 selector 函数在这个组件有机会用新 props 重新渲染之前就已经执行了
 
-Depending on what props were used and what the current store state is, this _may_ result in incorrect data being returned from the selector, or even an error being thrown.
+根据所使用的 props 和当前的 store state，这 _可能_ 会导致从 selector 返回不正确的数据，甚至抛出一个错误。
 
-"Zombie child" refers specifically to the case where:
+"Zombie child" 是指当下述任何情况发生时：
 
-- Multiple nested connected components are mounted in a first pass, causing a child component to subscribe to the store before its parent
-- An action is dispatched that deletes data from the store, such as a todo item
-- The parent component _would_ stop rendering that child as a result
-- However, because the child subscribed first, its subscription runs before the parent stops rendering it. When it reads a value from the store based on props, that data no longer exists, and if the extraction logic is not careful, this may result in an error being thrown.
+- 多个嵌套连接的组件在一次传入时 mount，导致子组件先于其父组件订阅 store
+- dispatch 一个 action 来删除 store 中的数据，例如一个 todo 项
+- 父组件会因此而停止渲染子组件
+- 然而，由于子组件先订阅了 store，其订阅会在父组件停止渲染子组件之前运行。当它依赖 props 从 store 中读取一个值时，该数据不存在，如果提取逻辑不细心，这可能会导致抛出一个错误。
 
-`useSelector()` tries to deal with this by catching all errors that are thrown when the selector is executed due to a store update (but not when it is executed during rendering). When an error occurs, the component will be forced to render, at which point the selector is executed again. This works as long as the selector is a pure function and you do not depend on the selector throwing errors.
+`useSelector()` 试图在 store 更新时，通过捕捉 selector 执行抛出的所有错误（但不是在渲染期间执行时）来处理这个问题。当错误发生时，该组件将被强制渲染，此时 selector 将被再次执行。只要 selector 是一个纯函数，并且不依赖于 selector 抛出的错误，这就可以了。
 
-If you prefer to deal with this issue yourself, here are some possible options for avoiding these problems altogether with `useSelector()`:
+如果你喜欢自己处理这个问题，这里有一些可能的选择，可以用 `useSelector()` 完全避免这些问题：
 
-- Don't rely on props in your selector function for extracting data
-- In cases where you do rely on props in your selector function _and_ those props may change over time, _or_ the data you're extracting may be based on items that can be deleted, try writing the selector functions defensively. Don't just reach straight into `state.todos[props.id].name` - read `state.todos[props.id]` first, and verify that it exists before trying to read `todo.name`.
-- Because `connect` adds the necessary `Subscription` to the context provider and delays evaluating child subscriptions until the connected component has re-rendered, putting a connected component in the component tree just above the component using `useSelector` will prevent these issues as long as the connected component gets re-rendered due to the same store update as the hooks component.
+- 不要在 selector 函数中依赖 props 来提取数据
+- 如果你在 selector 函数中依赖 props，_而且_ 这些 props 可能会随着时间的推移而改变，_或者_ 你要提取的数据可能是基于可以被删除的项目，请尝试以防御的方式编写 selector 函数。不要直接进入 `state.todos[props.id].name` ——首先读取 `state.todos[props.id]`，并在试图读取 `todo.name` 之前验证它是否存在。
+- 因为 `connect` 向上下文 provider 添加了必要的 `Subscription`，并且直到被连接的组件重新渲染之前都不会评估子组件的订阅，因此，在组件树中使用 `useSelector` 在组件上方放置被连接组件，只要被连接组件由于 store 更新而重新渲染，就可以防止这些问题，其中被连接组件的 store 与 hook 组件的相同。
 
-:::info
+:::info 说明
 
-For a longer description of these scenarios, see:
+有关这些方案的详细说明，请参阅：
 
 - ["Stale props and zombie children in Redux" by Kai Hao](https://kaihao.dev/posts/Stale-props-and-zombie-children-in-Redux)
 - [A chat log that describes the problems in more detail](https://gist.github.com/markerikson/faac6ae4aca7b82a058e13216a7888ec)
@@ -414,11 +405,11 @@ For a longer description of these scenarios, see:
 
 :::
 
-### Performance
+### 性能
 
-As mentioned earlier, by default `useSelector()` will do a reference equality comparison of the selected value when running the selector function after an action is dispatched, and will only cause the component to re-render if the selected value changed. However, unlike `connect()`, `useSelector()` does not prevent the component from re-rendering due to its parent re-rendering, even if the component's props did not change.
+如前所述，默认情况下，在 dispatch 一个 action 后，会运行 selector 函数，此时 `useSelector()` 会对所选值进行引用全等比较，只有在所选值发生变化时才会导致组件重新渲染。然而，与 `connect()` 不同的是，`useSelector()` 会在组件父级重新渲染时导致自身重新渲染，即使该组件的 props 没有改变。
 
-If further performance optimizations are necessary, you may consider wrapping your function component in `React.memo()`:
+如果需要进一步优化性能，你可以考虑用 `React.memo()` 来包裹你的函数组件。
 
 ```jsx
 const CounterComponent = ({ name }) => {
@@ -433,25 +424,19 @@ const CounterComponent = ({ name }) => {
 export const MemoizedCounterComponent = React.memo(CounterComponent)
 ```
 
-## Hooks Recipes
+## Hooks 方法
 
-We've pared down our hooks API from the original alpha release, focusing on a more minimal set of API primitives.
-However, you may still wish to use some of the approaches we tried in your own apps. These examples should be ready
-to copy and paste into your own codebase.
+我们已经从最初的 alpha 版本中缩减了我们的 hook API，专注于一套更简单的 API 基元。
+然而，你可能仍然希望在你自己的应用程序中使用我们尝试的一些方法。这些例子已经准备好，你可以复制并粘贴到你自己的代码库中。
 
-### Recipe: `useActions()`
+### 方法：`useActions()`
 
-This hook was in our original alpha release, but removed in `v7.1.0-alpha.4`, based on [Dan Abramov's suggestion](https://github.com/reduxjs/react-redux/issues/1252#issuecomment-488160930).
-That suggestion was based on "binding action creators" not being as useful in a hooks-based use case, and causing too
-much conceptual overhead and syntactic complexity.
+这个 hook 在我们最初的 alpha 版本中，但在 `v7.1.0-alpha.4` 中被移除，这是基于 [Dan Abramov 的建议](https://github.com/reduxjs/react-redux/issues/1252#issuecomment-488160930)。
+这个建议是基于"绑定 action creator"在 hooks-based 的用例中不那么有用，而且会造成太多的概念开销和句法复杂性。
 
-You should probably prefer to call the [`useDispatch`](#usedispatch) hook in your components to retrieve a reference to `dispatch`,
-and manually call `dispatch(someActionCreator())` in callbacks and effects as needed. You may also use the Redux
-[`bindActionCreators`](https://redux.js.org/api/bindactioncreators) function in your own code to bind action creators,
-or "manually" bind them like `const boundAddTodo = (text) => dispatch(addTodo(text))`.
+你可能更喜欢在你的组件中调用 [`useDispatch`](#usedispatch) hook 来检索对 `dispatch` 的引用，并根据需要在回调和 effects 中手动调用 `dispatch(someActionCreator())`。你也可以使用 Redux 的 [`bindActionCreators`](https://redux.js.org/api/bindactioncreators) 函数在你自己的代码中绑定 action creator，或者像 `const boundAddTodo = (text) => dispatch(addTodo(text))` 那样"手动"绑定它们。
 
-However, if you'd like to still use this hook yourself, here's a copy-pastable version that supports passing in action
-creators as a single function, an array, or an object.
+然而，如果你仍然想使用这个 hook，这里有一个可复制的版本，支持将 action creators 作为一个单一的函数、一个数组或一个对象传入。
 
 ```js
 import { bindActionCreators } from 'redux'
@@ -472,7 +457,7 @@ export function useActions(actions, deps) {
 }
 ```
 
-### Recipe: `useShallowEqualSelector()`
+### 方法: `useShallowEqualSelector()`
 
 ```js
 import { useSelector, shallowEqual } from 'react-redux'
@@ -482,6 +467,6 @@ export function useShallowEqualSelector(selector) {
 }
 ```
 
-### Additional considerations when using hooks
+### 使用 hooks 的其他注意事项
 
-There are some architectural trade offs to take into consideration when deciding whether to use hooks or not. Mark Erikson summarizes these nicely in his two blog posts [Thoughts on React Hooks, Redux, and Separation of Concerns](https://blog.isquaredsoftware.com/2019/07/blogged-answers-thoughts-on-hooks/) and [Hooks, HOCs, and Tradeoffs](https://blog.isquaredsoftware.com/2019/09/presentation-hooks-hocs-tradeoffs/).
+在决定是否使用 hooks 时，有一些架构上的权衡需要考虑到。Mark Erikson 在他的两篇博文 [Thoughts on React Hooks, Redux, and Separation of Concerns](https://blog.isquaredsoftware.com/2019/07/blogged-answers-thoughts-on-hooks/) 和 [Hooks, HOCs, and Tradeoffs](https://blog.isquaredsoftware.com/2019/09/presentation-hooks-hocs-tradeoffs/) 中很好地总结了这些。
