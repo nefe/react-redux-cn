@@ -31,13 +31,13 @@ hide_title: true
 
 React-Redux 和 Redux Toolkit 都已经用 TypeScript 编写了，因此它们的 TS 类型定义是内置的。
 
-[React Redux](https://react-redux.js.org) 在 NPM 上单独的 [`@types/react-redux` typedefs 包](https://npm.im/@types/react-redux) 中有其类型定义。除了键入库函数以外，这些类型还导出了一些帮助器，以便更轻松地在 Redux store 和 React 组件之间比那些类型安全的接口。
+[React Redux](https://react-redux.js.org) 在 NPM 上单独的 [`@types/react-redux` typedefs 包](https://npm.im/@types/react-redux) 中有其类型定义。除了键入库函数以外，这些类型还导出了一些帮助器，以便更轻松地在 Redux store 和 React 组件之间编写类型安全接口。
 
-[Create-React-App 的 Redux+TS](https://github.com/reduxjs/cra-template-redux-typescript) 模版附带了已配置的这些模式的工作示例。详情：
+[Create-React-App 的 Redux+TS](https://github.com/reduxjs/cra-template-redux-typescript) 模版附带了这些已配置模式的工作示例。详情：
 
 :::info
 
-最近更新的 `@types/react@18` 主要版本已更改组件定义以删除默认情况下的将 `children` 作为 prop。如果你的项目中有多个 `@types/react` 副本，这会导致错误。要解决此问题，请告诉你的包管理器将 `@types/react` 解析为单个版本。详情：
+最近更新的 `@types/react@18` 主要版本更改了组件定义，以删除默认情况下的将 `children` 作为 prop。如果你的项目中有多个 `@types/react` 副本，这会导致错误。要解决此问题，请告诉你的包管理器将 `@types/react` 解析为单个版本。详情：
 
 https://github.com/facebook/react/issues/24304#issuecomment-1094565891
 
@@ -49,7 +49,7 @@ https://github.com/facebook/react/issues/24304#issuecomment-1094565891
 
 [Redux Toolkit 的 `configureStore` API](https://redux-toolkit.js.org/api/configureStore) 不需要任何额外的类型。但是，你需要提取 `RootState` 类型和 `Dispatch` 类型，以便可以根据需要引用它们。从 store 本身推断这些类型意味着它们会随着你添加更多 state slices 或修改 middleware 设置而正确更新。
 
-由于这些是类型，因此可以安全地直接从你的 store 设置文件例如 `app/store.ts` 导出它们并将它们直接导入其他文件。
+由于这些是类型，因此可以安全地直接从你的 store 设置文件（例如 `app/store.ts`）导出它们并将它们直接导入其他文件。
 
 ```ts title="app/store.ts"
 import { configureStore } from '@reduxjs/toolkit'
@@ -158,7 +158,7 @@ const initialState = {
 
 ### 在组件中使用类型 Hooks
 
-在组件文件中，从 React-Redux 导入预先键入的 hooks 而不是标准的  hooks。
+在组件文件中，从 React-Redux 导入预先键入的 hooks 而不是标准的 hooks。
 
 ```tsx title="features/counter/Counter.tsx"
 import React, { useState } from 'react'
