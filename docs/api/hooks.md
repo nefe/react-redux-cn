@@ -31,7 +31,7 @@ hooks 在 7.1.0 版本首次添加
 ```jsx
 const store = createStore(rootReducer)
 
-// 在 React 18 中
+// 从 React 18 开始
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
@@ -304,7 +304,7 @@ const store = useStore()
 
 这个 hook 返回一个 Redux store 引用，该 store 与传递给 `<Provider>` 组件的 store 相同。
 
-不应该被频繁使用这个 hook。宁愿将 `useSelector()` 作为主要选择。然而，对于少量需要访问 store 的场景而言，例如替换 reducer，这个 hook 很有用。
+不应该频繁使用这个 hook。宁愿将 `useSelector()` 作为主要选择。然而，对于少量需要访问 store 的场景而言，例如替换 reducer，这个 hook 很有用。
 
 #### 示例
 
@@ -362,7 +362,7 @@ export function MyProvider({ children }) {
 
 自从 v7.1.0 中发布了 hook API，React-Redux 的 hook API 就已经可以被引入生产环境，**我们推荐你在组件中使用 hook API 作为默认方法**。然而，这可能会导致一些边缘情况，**我们将这些情况记录下来，以便你能了解它们**。
 
-实际情况下，这些问题比较罕见——我们收到的关于文档中存在这些问题的评论远远多于关于这些问题在应用中成为实际问题的实际报告。
+实际情况下，这些问题比较罕见——我们收到的关于文档中存在这些问题的评论远远多于关于这些问题在应用中成为实际问题的报告。
 
 :::
 
