@@ -51,20 +51,20 @@ description: 'Tutorials > Connect API: how to use the legacy connect API'
 
 <br />
 
-**The Redux Store**
+**Redux Store**
 
 应用程序的 Redux 部分已使用 [Redux 文档中推荐的模式](https://redux.js.org)进行设置：
 
 - Store
-  - `todos`：一个正常化的 todos 的 reducer。它包含一个对于所有 todos的 `byIds` map 和一个包含所有 ids 列表的 `allIds`。
+  - `todos`：一个归一化的 todos 的 reducer。它包含一个对于所有 todo 的 `byIds` map 和一个包含所有 id 列表的 `allIds`。
   - `visibilityFilters`：一个简单的字符串 `all`，`completed` 或者 `incomplete`。
 - Action Creators
   - `addTodo` 创建 action 添加到 todos 中。它采用单个字符串变量 `content` 并返回一个 `ADD_TODO` action 并且 `payload` 包含自增的 `id` 和 `content`
-  - `toggleTodo` 创建 action 去切换 todos。它采用单个数字变量 `id` 并返回一个`TOGGLE_TODO` action 并且 `payload` 只包含 `id`
+  - `toggleTodo` 创建 action 去切换 todos。它采用单个数字变量 `id` 并返回一个 `TOGGLE_TODO` action 并且 `payload` 只包含 `id`
   - `setFilter` 创建 action 去设置 app 的激活过滤器。它采用单个字符串变量 `filter` 并返回一个 `SET_FILTER` action 并且 `payload` 包含 `filter` 自身。
 - Reducers
   - The `todos` reducer
-    - 添加 `id` 到自身的 `allIds` 域中并在收收到 `ADD_TODO` action 后在其 `byIds` 字段中设置 todo
+    - 添加 `id` 到自身的 `allIds` 字段中并在收到 `ADD_TODO` action 后在其 `byIds` 字段中设置 todo
     - 在收到 `TOGGLE_TODO` action 后切换 todo 的 `completed` 字段
   - `visibilityFilters` reducer 设置 slice store 为从 `SET_FILTER` action payload 中的新 filter
 - Action Types
@@ -81,7 +81,7 @@ description: 'Tutorials > Connect API: how to use the legacy connect API'
 
 现在我们将展示如何使用 React Redux 将 store 连接到我们的应用中。
 
-### Providing the Store
+### 提供 Store
 
 第一步我们需要使得 `store` 对于我们的应用是可见的。为了做到这个，我们使用 React Redux 提供的 API `<Provider />` 去包裹我们的应用。
 
@@ -116,14 +116,14 @@ React Redux 提供一个 `connect` 函数使你可以读取 Redux store（并且
 - `mapStateToProps`：在每一次 store state 改变时被调用。它接收整个 store state，并返回该组件需要的数据对象。
 
 - `mapDispatchToProps`: 此参数可以是一个 function，或者一个 object。
-  - 如果它是function，会在 component 创建时立马被调用。它将接收 `dispatch` 作为一个参数，并且应该返回一个 object，其中包含使用 `dispatch` 来 dispatch actions 的函数。
+  - 如果它是 function，会在 component 创建时立马被调用。它将接收 `dispatch` 作为一个参数，并且应该返回一个 object，其中包含使用 `dispatch` 来 dispatch actions 的函数。
   - 如果它是一个充满 action creators 的 object，每个 action creator 都会变成一个 prop 函数，在调用时会自动 dispatches 其 action。**注意**：我们推荐使用这种 “object shorthand” 形式。
 
 通常，你会以这种方式调用 `connect`：
 
 ```js
 const mapStateToProps = (state, ownProps) => ({
-  // ... computed data 从 state 和 自定义 ownProps
+  // ...依据 state 和 自定义 ownProps 生成 computed data
 })
 
 const mapDispatchToProps = {
