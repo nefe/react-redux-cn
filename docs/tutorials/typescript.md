@@ -99,7 +99,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 所有生成的 action 都应该使用 Redux Toolkit 中的 `PayloadAction<T>` 类型定义，该类型将 `action.payload` 字段的类型作为其通用参数。
 
-你可以从此处的储存文件中安全地导入 `RootState` 类型。这是一个循环导入，但 TypeScript 编译器可以正确处理类型。这对于编写选择器函数等用例可能是必需的。
+你可以从此处的 store 文件中安全地导入 `RootState` 类型。这是一个循环导入，但 TypeScript 编译器可以正确处理类型。这对于编写 selector 函数等用例可能是必需的。
 
 ```ts title="features/counter/counterSlice.ts"
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
