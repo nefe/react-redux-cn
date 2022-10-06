@@ -31,7 +31,7 @@ hide_title: true
 
 本页将重点介绍如何使用 Redux Toolkit 和你将使用的主要 API 设置 Redux 应用程序。有关 Redux 是什么，它是如何工作的，以及如何使用 Redux Toolkit 的完整示例说明，请参阅 [Redux 核心文档教程](https://redux.js.org/tutorials/index)。
 
-对于本教程，我们假设你同时使用 Redux Toolkit 和 React Redux，因为这是标准的 Redux 使用模式。这些示例基于[典型的Create-React-App 文件夹结构](https://create-react-app.dev/docs/folder-structure) 其中所有应用程序代码都在一个 `src` 中，但这些模式可以适应你正在使用的任何项目或文件夹设置。
+对于本教程，我们假设你同时使用 Redux Toolkit 和 React Redux，因为这是标准的 Redux 使用模式。这些示例基于[典型的 Create-React-App 文件夹结构](https://create-react-app.dev/docs/folder-structure) 其中所有应用程序代码都在一个 `src` 中，但这些模式可以适应你正在使用的任何项目或文件夹设置。
 
 [Create-React-App 的 Redux+JS 模版](https://github.com/reduxjs/cra-template-redux)已经配置了相同的项目设置。
 
@@ -47,7 +47,7 @@ npm install @reduxjs/toolkit react-redux
 
 ### 创建 Redux Store
 
-创建一个命名为 `src/app/store.js` 的文件。从 Redux Toolkit 中 导入 `configureStore` API。我们将开始创建一个空的 Redux store，并导出它：
+创建一个命名为 `src/app/store.js` 的文件。从 Redux Toolkit 中导入 `configureStore` API。我们将开始创建一个空的 Redux store，并导出它：
 
 ```js title="app/store.js"
 import { configureStore } from '@reduxjs/toolkit'
@@ -102,10 +102,9 @@ export const counterSlice = createSlice({
   },
   reducers: {
     increment: (state) => {
-      // Redux Toolkit 允许我们在 reducers 中编写 mutating 逻辑。它
-      // 实际上并没有 mutate state 因为它使用了 Immer 库，
-      // 它检测到草稿 state 的变化并产生一个全新的
-      // 基于这些更改的不可变 state
+      // Redux Toolkit 允许我们在 reducers 中编写 mutating 逻辑。
+      // 它实际上并没有 mutate state 因为它使用了 Immer 库，
+      // 它检测到草稿 state 的变化并产生一个全新的基于这些更改的不可变 state
       state.value += 1
     },
     decrement: (state) => {
@@ -178,7 +177,7 @@ export function Counter() {
 
 从现在起单击 Increment 和 Decrement 按钮：
 
-- 对应的 Redux action 会 dispatch store
+- 对应的 Redux action 会被 dispatch 到 store
 - 计数 slice reducer 将看到 actions 更新其 state
 - `<Counter>` 组件将从 store 中看到新的 state 值，并使用新的数据重新渲染自己
 
