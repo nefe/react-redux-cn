@@ -9,7 +9,7 @@ hide_title: true
 
 ## 故障排除
 
-**[Reactiflux Discord 社区](http://www.reactiflux.com)** 的 **[#redux 频道](https://discord.gg/0ZcbPKXt5bZ6au5t)** 是我们所有学习和使用关于 Redux 的官方资源。Reactiflux 是一个闲逛，提问，和学习的好地方 - 快来加入我们吧!
+**[Reactiflux Discord 社区](http://www.reactiflux.com)** 的 **[#redux 频道](https://discord.gg/0ZcbPKXt5bZ6au5t)** 是我们所有学习和使用关于 Redux 的官方资源。Reactiflux 是一个闲逛、提问和学习的好地方 - 快来加入我们吧!
 
 你也可以在 [Stack Overflow](https://stackoverflow.com) 上用 **[#redux 标签](https://stackoverflow.com/questions/tagged/redux)** 去提问。
 
