@@ -33,7 +33,7 @@ React-Redux 和 Redux Toolkit 都已经用 TypeScript 编写了，因此它们�
 
 [React Redux](https://react-redux.js.org) 在 NPM 上单独的 [`@types/react-redux` typedefs 包](https://npm.im/@types/react-redux) 中有其类型定义。除了键入库函数以外，这些类型还导出了一些帮助器，以便更轻松地在 Redux store 和 React 组件之间编写类型安全接口。
 
-[Create-React-App 的 Redux+TS](https://github.com/reduxjs/cra-template-redux-typescript) 模版附带了这些已配置模式的工作示例。详情：
+[Create-React-App 的 Redux+TS 模版](https://github.com/reduxjs/cra-template-redux-typescript)附带了这些已配置模式的工作示例。详情：
 
 :::info
 
@@ -64,7 +64,7 @@ const store = configureStore({
 })
 
 // highlight-start
-// 从 store 本身推断`RootState` 和 `AppDispatch` 类型
+// 从 store 本身推断 `RootState` 和 `AppDispatch` 类型
 export type RootState = ReturnType<typeof store.getState>
 // 推断类型：{posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
