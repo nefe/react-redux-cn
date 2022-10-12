@@ -1,9 +1,9 @@
 ---
 id: why-use-react-redux
-title: Why Use React Redux?
+title: 为什么要使用 React Redux？
 hide_title: true
-sidebar_label: Why Use React Redux?
-description: 'Introduction > Why Use React Redux: benefits of using React Redux in a React app'
+sidebar_label: 为什么要使用？
+description: '简介 > 为什么要使用 React Redux: benefits of using React Redux in a React app'
 ---
 
 &nbsp;
@@ -15,7 +15,7 @@ Redux 本身是一个能够在任何 UI 层或框架中使用的独立的库，�
 
 如果你在使用 Redux 和任意一个 UI 框架， 你通常会使用 UI 绑定库将 Redux 与你的 UI 框架联系在一起，而不是让你的 UI 代码与 store 直接交流。
 
-**React Redux 是 React 官方的 Redux UI 绑定库**。如果你正在使用 Redux 和 React，你也应该使用 React Redux去连接这两个库。
+**React Redux 是 React 官方的 Redux UI 绑定库**。如果你正在使用 Redux 和 React，你也应该使用 React Redux 去连接这两个库。
 
 要了解为什么应该使用 React Redux，了解 UI 绑定库的作用可能会有所帮助。
 
@@ -26,7 +26,7 @@ Redux 本身是一个能够在任何 UI 层或框架中使用的独立的库，�
 - [Redux 文档: 动机](https://redux.js.org/introduction/motivation)
 - [Redux 文档: FAQ - 我应该什么时候使用 Redux？](https://redux.js.org/faq/general#when-should-i-use-redux)
 - [你可能不需要 Redux ](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367)
-- [惯用的 Redux: Redux之道，第1部分 - 实现和意图](https://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/)
+- [惯用的 Redux: Redux 之道，第 1 部分 - 实现和意图](https://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/)
 
 :::
 

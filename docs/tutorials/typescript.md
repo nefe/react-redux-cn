@@ -1,7 +1,7 @@
 ---
 id: typescript-quick-start
-title: TypeScript Quick Start
-sidebar_label: TypeScript Quick Start
+title: TypeScript 快速入门
+sidebar_label: TypeScript 快速入门
 hide_title: true
 ---
 
@@ -52,7 +52,7 @@ https://github.com/facebook/react/issues/24304#issuecomment-1094565891
 由于这些是类型，因此可以安全地直接从你的 store 设置文件（例如 `app/store.ts`）导出它们并将它们直接导入其他文件。
 
 ```ts title="app/store.ts"
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 // ...
 
 const store = configureStore({
@@ -61,13 +61,13 @@ const store = configureStore({
     comments: commentsReducer,
     users: usersReducer,
   },
-})
+});
 
 // highlight-start
 // 从 store 本身推断 `RootState` 和 `AppDispatch` 类型
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 // 推断类型：{posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
 // highlight-end
 ```
 
@@ -81,13 +81,13 @@ export type AppDispatch = typeof store.dispatch
 由于这些是实际变量，而不是类型，因此将它们定义在单独的文件例如 `app/hooks.ts` 中很重要，而不是 store 设置文件。这允许你将它们导入到任何需要使用的 hooks 的组件文件中，并避免潜在的循环导入的依赖问题。
 
 ```ts title="app/hooks.ts"
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import type { RootState, AppDispatch } from './store'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from './store';
 
 // highlight-start
 // 在整个应用程序中使用，而不是简单的 `useDispatch` 和 `useSelector`
-export const useAppDispatch: () => AppDispatch = useDispatch
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 // highlight-end
 ```
 
@@ -102,19 +102,19 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 你可以从此处的 store 文件中安全地导入 `RootState` 类型。这是一个循环导入，但 TypeScript 编译器可以正确处理类型。这对于编写 selector 函数等用例可能是必需的。
 
 ```ts title="features/counter/counterSlice.ts"
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../app/store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../../app/store';
 
 // highlight-start
 // 定义 slice state 的类型
 interface CounterState {
-  value: number
+  value: number;
 }
 
 // 使用该类型定义初始 state
 const initialState: CounterState = {
   value: 0,
-}
+};
 // highlight-end
 
 export const counterSlice = createSlice({
@@ -123,26 +123,26 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     increment: (state) => {
-      state.value += 1
+      state.value += 1;
     },
     decrement: (state) => {
-      state.value -= 1
+      state.value -= 1;
     },
     // highlight-start
     // 使用 PayloadAction 类型声明 `action.payload` 的内容
     incrementByAmount: (state, action: PayloadAction<number>) => {
       // highlight-end
-      state.value += action.payload
+      state.value += action.payload;
     },
   },
-})
+});
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
 // selectors 等其他代码可以使用导入的 `RootState` 类型
-export const selectCount = (state: RootState) => state.counter.value
+export const selectCount = (state: RootState) => state.counter.value;
 
-export default counterSlice.reducer
+export default counterSlice.reducer;
 ```
 
 生成的 action creators 将根据你为 reducer 提供的 `PayloadAction<T>` 类型正确输入以接收 `payload` 参数。例如，`incrementByAmount` 需要一个 `number` 作为其参数。
@@ -153,7 +153,7 @@ export default counterSlice.reducer
 // 解决方法：强制转换状态而不是声明变量类型
 const initialState = {
   value: 0,
-} as CounterState
+} as CounterState;
 ```
 
 ### 在组件中使用类型 Hooks
@@ -161,18 +161,18 @@ const initialState = {
 在组件文件中，从 React-Redux 导入预先键入的 hooks 而不是标准的 hooks。
 
 ```tsx title="features/counter/Counter.tsx"
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 // highlight-next-line
-import { useAppSelector, useAppDispatch } from 'app/hooks'
+import { useAppSelector, useAppDispatch } from 'app/hooks';
 
-import { decrement, increment } from './counterSlice'
+import { decrement, increment } from './counterSlice';
 
 export function Counter() {
   // highlight-start
   // `state` arg 已经正确被键入 `RootState`
-  const count = useAppSelector((state) => state.counter.value)
-  const dispatch = useAppDispatch()
+  const count = useAppSelector((state) => state.counter.value);
+  const dispatch = useAppDispatch();
   // highlight-end
 
   // 省略渲染逻辑

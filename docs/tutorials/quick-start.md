@@ -1,17 +1,17 @@
 ---
 id: quick-start
-title: Quick Start
-sidebar_label: Quick Start
+title: 快速入门
+sidebar_label: 快速入门
 hide_title: true
 ---
 
 &nbsp;
 
-# React Redux 快速开始
+# React Redux 快速入门
 
 :::tip 你将学到什么
 
-- 如何通过 React Redux 设置和使用 Redux Toolkit 
+- 如何通过 React Redux 设置和使用 Redux Toolkit
 
 :::
 
@@ -50,11 +50,11 @@ npm install @reduxjs/toolkit react-redux
 创建一个命名为 `src/app/store.js` 的文件。从 Redux Toolkit 中导入 `configureStore` API。我们将开始创建一个空的 Redux store，并导出它：
 
 ```js title="app/store.js"
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 
 export default configureStore({
   reducer: {},
-})
+});
 ```
 
 这将创建一个 Redux store，并自动配置 Redux DevTools 扩展，以便你可以在开发时检查 store。
@@ -64,24 +64,24 @@ export default configureStore({
 创建 store 后，我们可以通过在 `src/index.js` 中的应用程序外层放置一个 React Redux `<Provider>` 来使其对我们的 React 组件可用。导入我们刚刚创建的 Redux store，在 `<App>` 的外层放置一个 `<Provider>`，并将 store 作为 prop 传递：
 
 ```js title="index.js"
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
 // highlight-start
-import store from './app/store'
-import { Provider } from 'react-redux'
+import store from './app/store';
+import { Provider } from 'react-redux';
 // highlight-end
 
 // 从 React 18 开始
-const root = ReactDOM.createRoot(document.getElementById('root'))
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   // highlight-next-line
   <Provider store={store}>
     <App />
   </Provider>
-)
+);
 ```
 
 ### 创建 Redux State Slice
@@ -93,7 +93,7 @@ root.render(
 Redux 要求[我们通过制作数据副本和更新副本来不可变地写入所有的 state 更新](https://redux.js.org/tutorials/fundamentals/part-2-concepts-data-flow#immutability)。但是，Redux Toolkit 的 `createSlice` 和 `createReducer` API 在内部使用 [Immer](https://immerjs.github.io/immer/) 允许我们[编写 mutating 更新逻辑从而成为正确的不可变更新](https://redux.js.org/tutorials/fundamentals/part-8-modern-redux#immutable-updates-with-immer)。
 
 ```js title="features/counter/counterSlice.js"
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 export const counterSlice = createSlice({
   name: 'counter',
@@ -105,21 +105,21 @@ export const counterSlice = createSlice({
       // Redux Toolkit 允许我们在 reducers 中编写 mutating 逻辑。
       // 它实际上并没有 mutate state 因为它使用了 Immer 库，
       // 它检测到草稿 state 的变化并产生一个全新的基于这些更改的不可变 state
-      state.value += 1
+      state.value += 1;
     },
     decrement: (state) => {
-      state.value -= 1
+      state.value -= 1;
     },
     incrementByAmount: (state, action) => {
-      state.value += action.payload
+      state.value += action.payload;
     },
   },
-})
+});
 
 // 为每个 case reducer 函数生成 Action creators
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
-export default counterSlice.reducer
+export default counterSlice.reducer;
 ```
 
 ### 添加 Slice Reducers 到 Store
@@ -127,16 +127,16 @@ export default counterSlice.reducer
 接下来，我们需要从 counter slice 中导入 reducer 函数并将其添加到我们的 store 中。通过在 `reducers` 参数中定义一个字段，我们告诉 store 使用这个 slice reducer 函数来处理该 state 的所有更新。
 
 ```js title="app/store.js"
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 // highlight-next-line
-import counterReducer from '../features/counter/counterSlice'
+import counterReducer from '../features/counter/counterSlice';
 
 export default configureStore({
   reducer: {
     // highlight-next-line
     counter: counterReducer,
   },
-})
+});
 ```
 
 ### 在 React 组件中使用 Redux State 和 Actions
@@ -144,14 +144,14 @@ export default configureStore({
 现在我们可以使用 React Redux hooks 让 React 组件与 Redux store 交互。我们可以使用 `useSelector` 从 store 中读取数据，并使用 `useDispatch` dispatch actions。创建一个包含 `<Counter>` 组件的 `src/features/counter/Counter.js` 文件，然后将该组件导入 `App.js` 并在 `<App>` 中渲染它。
 
 ```jsx title="features/counter/Counter.js"
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment } from './counterSlice'
-import styles from './Counter.module.css'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { decrement, increment } from './counterSlice';
+import styles from './Counter.module.css';
 
 export function Counter() {
-  const count = useSelector((state) => state.counter.value)
-  const dispatch = useDispatch()
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -171,7 +171,7 @@ export function Counter() {
         </button>
       </div>
     </div>
-  )
+  );
 }
 ```
 
@@ -195,10 +195,10 @@ export function Counter() {
   - 将 Redux store 作为 `<Provider store={store}> 传递`
 - **使用 `createSlice` 创建一个 Redux slice reducer**
   - 使用字符串名称，初始 state 和命名的 reducer 函数调用 `createSlice`
-  - Reducer 函数可以使用 Immer 来 mutate state 
+  - Reducer 函数可以使用 Immer 来 mutate state
   - 导出生成的 slice reducer 和 action creators
 - **在 React 组件中使用 React Redux `useSelector/useDispatch` hooks**
-  - 使用 `useSelector` hook 从 store 读取数据 
+  - 使用 `useSelector` hook 从 store 读取数据
   - 使用 `useDispatch` hook 获取 `dispatch` 函数，并根据需要 dispatch actions
 
 :::

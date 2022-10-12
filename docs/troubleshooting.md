@@ -1,7 +1,7 @@
 ---
 id: troubleshooting
-title: Troubleshooting
-sidebar_label: Troubleshooting
+title: 故障排除
+sidebar_label: 故障排除
 hide_title: true
 ---
 

@@ -1,9 +1,9 @@
 ---
 id: connect
-title: 'Tutorial: Connect API'
+title: '教程: Connect API'
 hide_title: true
-sidebar_label: 'Tutorial: Connect API'
-description: 'Tutorials > Connect API: how to use the legacy connect API'
+sidebar_label: '教程：使用 connect API'
+description: '教程 > Connect API: how to use the legacy connect API'
 ---
 
 &nbsp;
@@ -70,10 +70,10 @@ description: 'Tutorials > Connect API: how to use the legacy connect API'
 - Action Types
   - 我们使用一个 `actionTypes.js` 文件去保存那些重复使用的 action types 常量
 - Selectors
-  - `getTodoList` 从 `todos` store 中返回 `allIds` 列表 
+  - `getTodoList` 从 `todos` store 中返回 `allIds` 列表
   - `getTodoById` 通过 `id` 查到 todo
   - `getTodos` 稍微复杂一些。它从 `allIds` 中获取所有的 `id`，在 `byIds` 中找到每个 todo，并在最后返回一个 todos 的数组
-  - `getTodosByVisibilityFilter` 根据 visibility filter 过滤 todos 
+  - `getTodosByVisibilityFilter` 根据 visibility filter 过滤 todos
 
 你可以通过查阅[此 CodeSandbox](https://codesandbox.io/s/6vwyqrpqk3) 获取 UI components 的源码和上述未连接的 Redux store
 
@@ -87,20 +87,20 @@ description: 'Tutorials > Connect API: how to use the legacy connect API'
 
 ```jsx
 // index.js
-import React from 'react'
-import ReactDOM from 'react-dom'
-import TodoApp from './TodoApp'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TodoApp from './TodoApp';
 
-import { Provider } from 'react-redux'
-import store from './redux/store'
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 // React 18 以后
-const root = ReactDOM.createRoot(document.getElementById('root'))
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <TodoApp />
   </Provider>
-)
+);
 ```
 
 注意我们的 `<TodoApp />` 现在是如何被 `<Provider />` 包裹的，其中 `store` 作为 prop 传入。
@@ -124,19 +124,19 @@ React Redux 提供一个 `connect` 函数使你可以读取 Redux store（并且
 ```js
 const mapStateToProps = (state, ownProps) => ({
   // ...依据 state 和 自定义 ownProps 生成 computed data
-})
+});
 
 const mapDispatchToProps = {
   // ... 通常是一个充满 action creators 的 object
-}
+};
 
 // `connect` 返回一个接收要包装的组件的新函数：
-const connectToStore = connect(mapStateToProps, mapDispatchToProps)
+const connectToStore = connect(mapStateToProps, mapDispatchToProps);
 // 并且该函数返回连接的，包装的组件：
-const ConnectedComponent = connectToStore(Component)
+const ConnectedComponent = connectToStore(Component);
 
 // 通常我们会将两者一步完成，像这样：
-connect(mapStateToProps, mapDispatchToProps)(Component)
+connect(mapStateToProps, mapDispatchToProps)(Component);
 ```
 
 让我们先处理 `<AddTodo />`。它需要触发对 `store` 的更改以添加新的 todos。因此，他需要能够 `dispatch` actions 到 store。接下来我们是如何做到的。
@@ -145,34 +145,34 @@ connect(mapStateToProps, mapDispatchToProps)(Component)
 
 ```js
 // redux/actions.js
-import { ADD_TODO } from './actionTypes'
+import { ADD_TODO } from './actionTypes';
 
-let nextTodoId = 0
+let nextTodoId = 0;
 export const addTodo = (content) => ({
   type: ADD_TODO,
   payload: {
     id: ++nextTodoId,
     content,
   },
-})
+});
 
 // ... 其他 actions
 ```
 
-通过将它传递给 `connect`，我们的组件将其作为 prop 接收，当它被调用时将自动 dispatch action。 
+通过将它传递给 `connect`，我们的组件将其作为 prop 接收，当它被调用时将自动 dispatch action。
 
 ```js
 // components/AddTodo.js
 
 // ... 其他导入
-import { connect } from 'react-redux'
-import { addTodo } from '../redux/actions'
+import { connect } from 'react-redux';
+import { addTodo } from '../redux/actions';
 
 class AddTodo extends React.Component {
   // ... 组件实现
 }
 
-export default connect(null, { addTodo })(AddTodo)
+export default connect(null, { addTodo })(AddTodo);
 ```
 
 注意现在 `<AddTodo />` 被一个叫做 `<Connect(AddTodo) />` 的父组件包裹。此时，`<AddTodo />` 现在获取一个 prop：`addTodo` action。
@@ -184,20 +184,20 @@ export default connect(null, { addTodo })(AddTodo)
 ```jsx
 // components/AddTodo.js
 
-import React from 'react'
-import { connect } from 'react-redux'
-import { addTodo } from '../redux/actions'
+import React from 'react';
+import { connect } from 'react-redux';
+import { addTodo } from '../redux/actions';
 
 class AddTodo extends React.Component {
   // ...
 
   handleAddTodo = () => {
     // dispatches actions 添加 todo
-    this.props.addTodo(this.state.input)
+    this.props.addTodo(this.state.input);
 
     // 设置 state 回到空的字符串
-    this.setState({ input: '' })
-  }
+    this.setState({ input: '' });
+  };
 
   render() {
     return (
@@ -210,11 +210,11 @@ class AddTodo extends React.Component {
           Add Todo
         </button>
       </div>
-    )
+    );
   }
 }
 
-export default connect(null, { addTodo })(AddTodo)
+export default connect(null, { addTodo })(AddTodo);
 ```
 
 现在我们的 `<AddTodo />` 已连接到 store。当我们添加一个 todo，将 dispatch action 去改变 store。我们在应用程序中看不到它因为其他组件尚未连接。如果你连接了 Redux DevTools Extension，你应该可以看到正在 dispatched action：
@@ -227,7 +227,7 @@ export default connect(null, { addTodo })(AddTodo)
 
 `<TodoList />` 组件负责渲染 todos 的列表。因此，它需要从 store 中读取数据。我们通过使用 `mapStateToProps` 参数调用 `connect` 来启用它，该函数描述了我们需要从 store 中获取哪一部分数据。
 
-我们的 `<Todo />` 组件将 todo item 作为 props。我们从 `todos` 的 `byIds` 字段中获得了这些信息。但是，我们还需要来自store 的 `allIds` 字段的信息，指示哪些 todos 以及它们应该以什么顺序呈现。我们的 `mapStateToProps` 可能如下所示：
+我们的 `<Todo />` 组件将 todo item 作为 props。我们从 `todos` 的 `byIds` 字段中获得了这些信息。但是，我们还需要来自 store 的 `allIds` 字段的信息，指示哪些 todos 以及它们应该以什么顺序呈现。我们的 `mapStateToProps` 可能如下所示：
 
 ```js
 // components/TodoList.js
@@ -254,16 +254,16 @@ export default connect(mapStateToProps)(TodoList);
 ```js
 // redux/selectors.js
 
-export const getTodosState = (store) => store.todos
+export const getTodosState = (store) => store.todos;
 
 export const getTodoList = (store) =>
-  getTodosState(store) ? getTodosState(store).allIds : []
+  getTodosState(store) ? getTodosState(store).allIds : [];
 
 export const getTodoById = (store, id) =>
-  getTodosState(store) ? { ...getTodosState(store).byIds[id], id } : {}
+  getTodosState(store) ? { ...getTodosState(store).byIds[id], id } : {};
 
 export const getTodos = (store) =>
-  getTodoList(store).map((id) => getTodoById(store, id))
+  getTodoList(store).map((id) => getTodoById(store, id));
 ```
 
 ```js
@@ -290,10 +290,10 @@ export default connect(state => ({ todos: getTodos(state) }))(TodoList);
 
 根据你使用的组件类型，有不同的调用 `connect` 方式，最常见的总结如下：
 
-|                               | 不订阅 Store                  | 订阅Store                                    |
-| ----------------------------- | ---------------------------------------------- | --------------------------------------------------------- |
+|                        | 不订阅 Store                                   | 订阅 Store                                                |
+| ---------------------- | ---------------------------------------------- | --------------------------------------------------------- |
 | 不注入 Action Creators | `connect()(Component)`                         | `connect(mapStateToProps)(Component)`                     |
-| 注入 Action Creators        | `connect(null, mapDispatchToProps)(Component)` | `connect(mapStateToProps, mapDispatchToProps)(Component)` |
+| 注入 Action Creators   | `connect(null, mapDispatchToProps)(Component)` | `connect(mapStateToProps, mapDispatchToProps)(Component)` |
 
 #### 不订阅 store 且不注入 action creators
 
@@ -304,7 +304,7 @@ export default connect(state => ({ todos: getTodos(state) }))(TodoList);
 
 ```js
 // ... Component
-export default connect()(Component) // 组件将接收 `dispatch`（就像我们的 <TodoList />！）
+export default connect()(Component); // 组件将接收 `dispatch`（就像我们的 <TodoList />！）
 ```
 
 #### 订阅 store 不注入 action creators
@@ -316,8 +316,8 @@ export default connect()(Component) // 组件将接收 `dispatch`（就像我们
 
 ```js
 // ... Component
-const mapStateToProps = (state) => state.partOfState
-export default connect(mapStateToProps)(Component)
+const mapStateToProps = (state) => state.partOfState;
+export default connect(mapStateToProps)(Component);
 ```
 
 #### 不订阅 store 注入 action creators
@@ -325,12 +325,12 @@ export default connect(mapStateToProps)(Component)
 如果你仅使用 `mapDispatchToProps` 调用 `connect`，你的组件将：
 
 - 当 store 改变时 _不会_ 重渲染
-- 接收你使用 `mapDispatchToProps` 作为 props 注入的每个 action creators，并在被调用时自动 dispatch actions 
+- 接收你使用 `mapDispatchToProps` 作为 props 注入的每个 action creators，并在被调用时自动 dispatch actions
 
 ```js
-import { addTodo } from './actionCreators'
+import { addTodo } from './actionCreators';
 // ... Component
-export default connect(null, { addTodo })(Component)
+export default connect(null, { addTodo })(Component);
 ```
 
 #### 订阅 store 注入 action creators
@@ -341,10 +341,10 @@ export default connect(null, { addTodo })(Component)
 - 接收你使用 `mapDispatchToProps` 注入的所有 action creators 作为 props 并自动在被调用时 dispatch actions。
 
 ```js
-import * as actionCreators from './actionCreators'
+import * as actionCreators from './actionCreators';
 // ... Component
-const mapStateToProps = (state) => state.partOfState
-export default connect(mapStateToProps, actionCreators)(Component)
+const mapStateToProps = (state) => state.partOfState;
+export default connect(mapStateToProps, actionCreators)(Component);
 ```
 
 这四种情况涵盖了 `connect` 最基本的用法。要了解有关 `connect` 的更多信息，请继续阅读我们的 [API 部分](../api/connect.md) 该部分对其进行了更详细的解释。
@@ -405,17 +405,17 @@ export default connect(
 
 // ... other selectors
 export const getTodosByVisibilityFilter = (store, visibilityFilter) => {
-  const allTodos = getTodos(store)
+  const allTodos = getTodos(store);
   switch (visibilityFilter) {
     case VISIBILITY_FILTERS.COMPLETED:
-      return allTodos.filter((todo) => todo.completed)
+      return allTodos.filter((todo) => todo.completed);
     case VISIBILITY_FILTERS.INCOMPLETE:
-      return allTodos.filter((todo) => !todo.completed)
+      return allTodos.filter((todo) => !todo.completed);
     case VISIBILITY_FILTERS.ALL:
     default:
-      return allTodos
+      return allTodos;
   }
-}
+};
 ```
 
 并在选择器的帮助下连接到 store：
@@ -426,12 +426,12 @@ export const getTodosByVisibilityFilter = (store, visibilityFilter) => {
 // ...
 
 const mapStateToProps = (state) => {
-  const { visibilityFilter } = state
-  const todos = getTodosByVisibilityFilter(state, visibilityFilter)
-  return { todos }
-}
+  const { visibilityFilter } = state;
+  const todos = getTodosByVisibilityFilter(state, visibilityFilter);
+  return { todos };
+};
 
-export default connect(mapStateToProps)(TodoList)
+export default connect(mapStateToProps)(TodoList);
 ```
 
 现在我们通过 React Redux 完成了一个非常简单的 todo 应用的例子。我们的所有组件都被连接上了！这是不是很棒？ 🎉🎊

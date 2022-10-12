@@ -1,9 +1,9 @@
 ---
 id: connect-mapstate
-title: 'Connect: Extracting Data with mapStateToProps'
+title: 'Connect: 使用 mapStateToProps 获取数据'
 hide_title: true
-sidebar_label: 'Connect: Extracting Data with mapStateToProps'
-description: 'Usage > mapState: options for reading state with connect'
+sidebar_label: 'Connect: 使用 mapStateToProps 获取数据'
+description: '使用指南 > mapState: options for reading state with connect'
 ---
 
 &nbsp;
@@ -44,11 +44,11 @@ function mapStateToProps(state, ownProps?)
 // TodoList.js
 
 function mapStateToProps(state) {
-  const { todos } = state
-  return { todoList: todos.allIds }
+  const { todos } = state;
+  return { todoList: todos.allIds };
 }
 
-export default connect(mapStateToProps)(TodoList)
+export default connect(mapStateToProps)(TodoList);
 ```
 
 #### `ownProps` (可选的)
@@ -59,17 +59,17 @@ export default connect(mapStateToProps)(TodoList)
 // Todo.js
 
 function mapStateToProps(state, ownProps) {
-  const { visibilityFilter } = state
+  const { visibilityFilter } = state;
   // ownProps 诸如 { "id" : 123 }
-  const { id } = ownProps
-  const todo = getTodoById(state, id)
+  const { id } = ownProps;
+  const todo = getTodoById(state, id);
 
   // 组件额外接受的内容
-  return { todo, visibilityFilter }
+  return { todo, visibilityFilter };
 }
 
 // 之后，你的应用中 render 一个父组件：
-;<ConnectedTodo id={123} />
+<ConnectedTodo id={123} />;
 // 并且你的组件接收了 props.id、props.todo 和 props.visibilityFilter
 ```
 
@@ -90,7 +90,7 @@ function mapStateToProps(state) {
     a: 42,
     todos: state.todos,
     filter: state.visibilityFilter,
-  }
+  };
 }
 
 // 组件会接收到：props.a, props.todos, and props.filter
@@ -126,10 +126,10 @@ React Redux 在内部实现了 `shouldComponentUpdate` 方法，这样当组件�
 
 总结一下 `connect` 包裹的组件与 `mapStateToProps` 从 store 中提取数据的行为：
 
-|                              | `(state) => stateProps`                | `(state, ownProps) => stateProps`                                                            |
-| ---------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `mapStateToProps` 运行条件： | store `state` 变更                 | store `state` 变更 <br /> 或者 <br />任何 `ownProps` 的字段变化                   |
-| 组件重现渲染条件：   | 任何 `stateProps` 字段变化 | 任何 `stateProps` 的字段变化 <br /> 或者 <br /> 任何 `ownProps` 的字段变化 |
+|                              | `(state) => stateProps`    | `(state, ownProps) => stateProps`                                          |
+| ---------------------------- | -------------------------- | -------------------------------------------------------------------------- |
+| `mapStateToProps` 运行条件： | store `state` 变更         | store `state` 变更 <br /> 或者 <br />任何 `ownProps` 的字段变化            |
+| 组件重现渲染条件：           | 任何 `stateProps` 字段变化 | 任何 `stateProps` 的字段变化 <br /> 或者 <br /> 任何 `ownProps` 的字段变化 |
 
 ### 仅在需要时返回新对象引用
 
@@ -162,6 +162,7 @@ Immutable.js 的作者 Lee Byron 在 Twitter [explicitly advises avoiding `toJS`
 > #immutablejs 的性能提示：避免 .toJS() .toObject() 和 .toArray() 缓慢的全复制操作，这会导致结构共享变得无用。
 
 Immutable.js 还需要考虑其他几个性能问题 - 请参阅本页末尾的链接列表以获取更多信息。
+
 ## 行为和陷阱
 
 ### `mapStateToProps` 在 Store State 相同时不会运行
@@ -182,31 +183,31 @@ Redux `combineReducers` 实用程序函数尝试对此进行优化。如果 slic
 
 ```js
 function mapStateToProps(state) {
-  console.log(state) // state
-  console.log(arguments[1]) // undefined
+  console.log(state); // state
+  console.log(arguments[1]); // undefined
 }
 const mapStateToProps = (state, ownProps = {}) => {
-  console.log(state) // state
-  console.log(ownProps) // {}
-}
+  console.log(state); // state
+  console.log(ownProps); // {}
+};
 ```
 
 当函数的正式定义包含零个或两个强制参数时，它 _将_ 接收`ownProps`：
 
 ```js
 function mapStateToProps(state, ownProps) {
-  console.log(state) // state
-  console.log(ownProps) // ownProps
+  console.log(state); // state
+  console.log(ownProps); // ownProps
 }
 
 function mapStateToProps() {
-  console.log(arguments[0]) // state
-  console.log(arguments[1]) // ownProps
+  console.log(arguments[0]); // state
+  console.log(arguments[1]); // ownProps
 }
 
 function mapStateToProps(...args) {
-  console.log(args[0]) // state
-  console.log(args[1]) // ownProps
+  console.log(args[0]); // state
+  console.log(args[1]); // ownProps
 }
 ```
 

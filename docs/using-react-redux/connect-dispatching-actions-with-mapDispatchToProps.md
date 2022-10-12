@@ -1,14 +1,14 @@
 ---
 id: connect-mapdispatch
-title: 'Connect: Dispatching Actions with mapDispatchToProps'
+title: 'Connect: 使用 mapDispatchToProps Dispatch Action'
 hide_title: true
-sidebar_label: 'Connect: Dispatching Actions with mapDispatchToProps'
-description: 'Usage > mapDispatch: options for dispatching actions with connect'
+sidebar_label: 'Connect: 使用 mapDispatchToProps Dispatch Action'
+description: '使用指南 > mapDispatch: options for dispatching actions with connect'
 ---
 
 &nbsp;
 
-# 连接：使用 `mapDispatchToProps` Dispatching Actions
+# 连接：使用 `mapDispatchToProps` Dispatch Action
 
 作为传递给 `connect` 的第二个参数，`mapDispatchToProps` 用于 dispatch actions 给 store。
 
@@ -30,12 +30,12 @@ React Redux 为你提供了两种让组件 dispatch actions 的方法：
 如果你没有为 `connect()` 指定第二个参数，你的组件将默认接收 `dispatch`。例如：
 
 ```js
-connect()(MyComponent)
+connect()(MyComponent);
 // 等同于
-connect(null, null)(MyComponent)
+connect(null, null)(MyComponent);
 
 // 或者
-connect(mapStateToProps /** 没有第二个参数 */)(MyComponent)
+connect(mapStateToProps /** 没有第二个参数 */)(MyComponent);
 ```
 
 一旦你以这种方式连接了你的组件，你的组件就会接收到 `props.dispatch`。你可以使用它向 store dispatch actions。
@@ -49,7 +49,7 @@ function Counter({ count, dispatch }) {
       <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
       <button onClick={() => dispatch({ type: 'RESET' })}>reset</button>
     </div>
-  )
+  );
 }
 ```
 
@@ -89,7 +89,7 @@ const TodoList = ({ todos, toggleTodo }) => (
       <Todo todo={todo} onClick={toggleTodo} />
     ))}
   </div>
-)
+);
 ```
 
 这就是 React Redux 的 `connect` 所做的工作——它封装了与 Redux store 对话的逻辑，让你不用关心它。这就是你应该在你的实现中充分利用的东西。
@@ -126,8 +126,8 @@ const mapDispatchToProps = (dispatch) => {
     increment: () => dispatch({ type: 'INCREMENT' }),
     decrement: () => dispatch({ type: 'DECREMENT' }),
     reset: () => dispatch({ type: 'RESET' }),
-  }
-}
+  };
+};
 ```
 
 你可能还希望将参数转发给你的 action creators：
@@ -141,8 +141,8 @@ const mapDispatchToProps = (dispatch) => {
     // 隐式转发参数
     onReceiveImpressions: (...impressions) =>
       dispatch(trackImpressions(impressions)),
-  }
-}
+  };
+};
 ```
 
 **`ownProps` （可选的）**
@@ -187,9 +187,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 - 如果你在 `dispatch` 中使用 action creators（与普通对象 actions 相反），则约定将字段键命名为与 action creator 相同的名称：
 
 ```js
-const increment = () => ({ type: 'INCREMENT' })
-const decrement = () => ({ type: 'DECREMENT' })
-const reset = () => ({ type: 'RESET' })
+const increment = () => ({ type: 'INCREMENT' });
+const decrement = () => ({ type: 'DECREMENT' });
+const reset = () => ({ type: 'RESET' });
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -197,8 +197,8 @@ const mapDispatchToProps = (dispatch) => {
     increment: () => dispatch(increment()),
     decrement: () => dispatch(decrement()),
     reset: () => dispatch(reset()),
-  }
-}
+  };
+};
 ```
 
 `mapDispatchToProps` 函数的返回值将作为 props 合并到你连接的组件中。你可以直接调用它们来 dispatch 其 action。
@@ -212,7 +212,7 @@ function Counter({ count, increment, decrement, reset }) {
       <button onClick={increment}>+</button>
       <button onClick={reset}>reset</button>
     </div>
-  )
+  );
 }
 ```
 
@@ -232,21 +232,21 @@ function Counter({ count, increment, decrement, reset }) {
 `bindActionCreators` 生成的包装函数将自动转发它们的所有参数，因此你无需手动执行此操作。
 
 ```js
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 
-const increment = () => ({ type: 'INCREMENT' })
-const decrement = () => ({ type: 'DECREMENT' })
-const reset = () => ({ type: 'RESET' })
+const increment = () => ({ type: 'INCREMENT' });
+const decrement = () => ({ type: 'DECREMENT' });
+const reset = () => ({ type: 'RESET' });
 
 // 绑定一个 action creator
 // 返回 (...args) => dispatch(increment(...args))
-const boundIncrement = bindActionCreators(increment, dispatch)
+const boundIncrement = bindActionCreators(increment, dispatch);
 
 // 绑定一个全是 action creators 的对象
 const boundActionCreators = bindActionCreators(
   { increment, decrement, reset },
   dispatch
-)
+);
 // 返回
 // {
 //   increment: (...args) => dispatch(increment(...args)),
@@ -258,15 +258,15 @@ const boundActionCreators = bindActionCreators(
 在我们的 `mapDispatchToProps` 函数中使用 `bindActionCreators`：
 
 ```js
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 // ...
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ increment, decrement, reset }, dispatch)
+  return bindActionCreators({ increment, decrement, reset }, dispatch);
 }
 
 // 组件接收 props.increment, props.decrement, props.reset
-connect(null, mapDispatchToProps)(Counter)
+connect(null, mapDispatchToProps)(Counter);
 ```
 
 ### 手动注入 `dispatch`
@@ -274,14 +274,14 @@ connect(null, mapDispatchToProps)(Counter)
 如果提供了 `mapDispatchToProps` 参数，组件将不再接收默认的 `dispatch`。你可以通过手动将其添加到你的 `mapDispatchToProps` 的返回中来恢复它，尽管大多数时候你不需要这样做：
 
 ```js
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 // ...
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     ...bindActionCreators({ increment, decrement, reset }, dispatch),
-  }
+  };
 }
 ```
 
@@ -300,7 +300,7 @@ function mapDispatchToProps(dispatch) {
 
 ```js
 // React Redux 自动替你进行了该操作:
-;(dispatch) => bindActionCreators(mapDispatchToProps, dispatch)
+(dispatch) => bindActionCreators(mapDispatchToProps, dispatch);
 ```
 
 因此，`mapDispatchToProps` 可以简化为：
@@ -310,7 +310,7 @@ const mapDispatchToProps = {
   increment,
   decrement,
   reset,
-}
+};
 ```
 
 由于变量的实际名称由你决定，你可能希望给它一个名称，如 `actionCreators`，或者甚至在对 `connect` 的调用中定义内联对象：
@@ -352,7 +352,7 @@ TypeError: this.props.dispatch is not a function
 
 ```js
 // 组件接收 `dispatch`
-connect(mapStateToProps /** 没有第二个参数 */)(Component)
+connect(mapStateToProps /** 没有第二个参数 */)(Component);
 ```
 
 **2. 你的自定义 `mapDispatchToProps` 函数返回明确地包含 `dispatch`**
@@ -366,20 +366,20 @@ const mapDispatchToProps = (dispatch) => {
     decrement: () => dispatch(decrement()),
     reset: () => dispatch(reset()),
     dispatch,
-  }
-}
+  };
+};
 ```
 
 或者使用 `bindActionCreators`：
 
 ```js
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     ...bindActionCreators({ increment, decrement, reset }, dispatch),
-  }
+  };
 }
 ```
 
@@ -392,7 +392,7 @@ function mapDispatchToProps(dispatch) {
 是的。你可以通过传递 `undefined` 或 `null` 来跳过第一个参数。你的组件不会订阅 store，仍然会收到 `mapDispatchToProps` 定义的 dispatch props。
 
 ```js
-connect(null, mapDispatchToProps)(MyComponent)
+connect(null, mapDispatchToProps)(MyComponent);
 ```
 
 ### 我能调用 `store.dispatch` 吗？

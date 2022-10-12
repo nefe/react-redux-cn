@@ -1,9 +1,9 @@
 ---
 id: usage-with-typescript
-title: Usage with TypeScript
+title: 与 TypeScript 一起使用
 hide_title: true
-sidebar_label: Usage with TypeScript
-description: 'Usage > TypeScript: how to correctly type React Redux APIs'
+sidebar_label: 与 TypeScript 一起使用
+description: '使用指南 > TypeScript: how to correctly type React Redux APIs'
 ---
 
 &nbsp;
@@ -35,7 +35,7 @@ https://github.com/facebook/react/issues/24304#issuecomment-1094565891
 由于这些都是 types，因此可以安全地直接从 `app/store.ts` 这样的 store 设置文件中导出它们，并将它们直接导入到其他文件中。
 
 ```ts title="app/store.ts"
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 // ...
 
 const store = configureStore({
@@ -44,13 +44,13 @@ const store = configureStore({
     comments: commentsReducer,
     users: usersReducer,
   },
-})
+});
 
 // highlight-start
 // 从 store 本身推断出 `RootState` 和 `AppDispatch` types
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 // 类型推断: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
 // highlight-end
 ```
 
@@ -64,13 +64,13 @@ export type AppDispatch = typeof store.dispatch
 由于它们是实际的变量而不是类型，因此在像 `app/hooks.ts` 这样单独的文件中，而不是 store 的设置文件中定义它们是很重要的。这允许你将它们导入到需要使用这些 hooks 的任何组件文件中，并避免了潜在的循环导入依赖问题。
 
 ```ts title="app/hooks.ts"
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import type { RootState, AppDispatch } from './store'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from './store';
 
 // highlight-start
 // 在整个应用中使用，而不是简单的使用 `useDispatch` 和 `useSelector`
-export const useAppDispatch: () => AppDispatch = useDispatch
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 // highlight-end
 ```
 
@@ -84,20 +84,20 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 ```ts
 interface RootState {
-  isOn: boolean
+  isOn: boolean;
 }
 
 // TS 推断的类型：(state: RootState) => boolean
-const selectIsOn = (state: RootState) => state.isOn
+const selectIsOn = (state: RootState) => state.isOn;
 
 // TS 推断 `isOn` 是布尔值
-const isOn = useSelector(selectIsOn)
+const isOn = useSelector(selectIsOn);
 ```
 
 同样可以在一行内编写：
 
 ```ts
-const isOn = useSelector((state: RootState) => state.isOn)
+const isOn = useSelector((state: RootState) => state.isOn);
 ```
 
 ### 定义 `useDispatch` hook 类型
@@ -107,18 +107,17 @@ By default, the return value of `useDispatch` is the standard `Dispatch` type de
 默认情况下，`useDispatch` 的返回值是由 Redux 核心 types 所定义的标准 `Dispatch` 类型，因此不需要声明：
 
 ```ts
-const dispatch = useDispatch()
+const dispatch = useDispatch();
 ```
 
 如果你有 `Dispatch` type 的自定义版本，则可以显式使用该类型：
 
-
 ```ts
 // store.ts
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
 
 // MyComponent.tsx
-const dispatch: AppDispatch = useDispatch()
+const dispatch: AppDispatch = useDispatch();
 ```
 
 ## 定义 `connect` 高阶组件类型
@@ -130,32 +129,32 @@ const dispatch: AppDispatch = useDispatch()
 该包包含了一个辅助类型 `ConnectedProps`，它可以从第一个函数中提取 `mapStateToProps` 和 `mapDispatchToProps` 的返回类型。这意味着如果你将 `connect` 调用分成两个步骤，所有的“来自 Redux 的 props”都可以自动推断出来，而无需手动编写它们。如果你已经使用 React-Redux 一段时间了，可能会觉得这种方式异常，但它确实大大简化了类型声明。
 
 ```ts
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux';
 
 interface RootState {
-  isOn: boolean
+  isOn: boolean;
 }
 
 const mapState = (state: RootState) => ({
   isOn: state.isOn,
-})
+});
 
 const mapDispatch = {
   toggleOn: () => ({ type: 'TOGGLE_IS_ON' }),
-}
+};
 
-const connector = connect(mapState, mapDispatch)
+const connector = connect(mapState, mapDispatch);
 
 // 推断出的类型如下：
 // {isOn: boolean, toggleOn: () => void}
-type PropsFromRedux = ConnectedProps<typeof connector>
+type PropsFromRedux = ConnectedProps<typeof connector>;
 ```
 
 然后可以使用 `ConnectedProps` 的返回类型来定义 props 对象的类型。
 
 ```tsx
 interface Props extends PropsFromRedux {
-  backgroundColor: string
+  backgroundColor: string;
 }
 
 const MyComponent = (props: Props) => (
@@ -164,9 +163,9 @@ const MyComponent = (props: Props) => (
       Toggle is {props.isOn ? 'ON' : 'OFF'}
     </button>
   </div>
-)
+);
 
-export default connector(MyComponent)
+export default connector(MyComponent);
 ```
 
 因为可以按任何顺序定义类型，所以需要的话，仍然可以在声明 connector 之前声明组件。
@@ -191,29 +190,29 @@ export default connector(MyComponent)
 `connect` 高阶组件难以定义类型，因为 props 有 3 个来源：`mapStateToProps`、`mapDispatchToProps` 和从父组件传入的 props。这是手动执行此操作的完整示例。
 
 ```tsx
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 interface StateProps {
-  isOn: boolean
+  isOn: boolean;
 }
 
 interface DispatchProps {
-  toggleOn: () => void
+  toggleOn: () => void;
 }
 
 interface OwnProps {
-  backgroundColor: string
+  backgroundColor: string;
 }
 
-type Props = StateProps & DispatchProps & OwnProps
+type Props = StateProps & DispatchProps & OwnProps;
 
 const mapState = (state: RootState) => ({
   isOn: state.isOn,
-})
+});
 
 const mapDispatch = {
   toggleOn: () => ({ type: 'TOGGLE_IS_ON' }),
-}
+};
 
 const MyComponent = (props: Props) => (
   <div style={{ backgroundColor: props.backgroundColor }}>
@@ -221,13 +220,13 @@ const MyComponent = (props: Props) => (
       Toggle is {props.isOn ? 'ON' : 'OFF'}
     </button>
   </div>
-)
+);
 
 // 典型的用法：在组件定义之后调用 `connect`
 export default connect<StateProps, DispatchProps, OwnProps>(
   mapState,
   mapDispatch
-)(MyComponent)
+)(MyComponent);
 ```
 
 It is also possible to shorten this somewhat, by inferring the types of `mapState` and `mapDispatch`:
@@ -236,16 +235,16 @@ It is also possible to shorten this somewhat, by inferring the types of `mapStat
 ```ts
 const mapState = (state: RootState) => ({
   isOn: state.isOn,
-})
+});
 
 const mapDispatch = {
   toggleOn: () => ({ type: 'TOGGLE_IS_ON' }),
-}
+};
 
-type StateProps = ReturnType<typeof mapState>
-type DispatchProps = typeof mapDispatch
+type StateProps = ReturnType<typeof mapState>;
+type DispatchProps = typeof mapDispatch;
 
-type Props = StateProps & DispatchProps & OwnProps
+type Props = StateProps & DispatchProps & OwnProps;
 ```
 
 但是，如果将 `mapDispatch` 定义为对象并且还引用了 thunks，则以这种方式推断 `mapDispatch` 的类型将会中断。

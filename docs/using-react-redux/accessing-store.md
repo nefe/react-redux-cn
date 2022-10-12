@@ -1,9 +1,9 @@
 ---
 id: accessing-store
-title: Accessing the Store
+title: 访问 Store
 hide_title: true
-sidebar_label: Accessing the Store
-description: 'Usage > Accessing the Store: techniques for getting the store in your components'
+sidebar_label: 访问 Store
+description: '使用指南 > 访问 Store: techniques for getting the store in your components'
 ---
 
 &nbsp;
@@ -25,6 +25,7 @@ React Redux 的 `<Provider>` 组件使用 `<ReactReduxContext.Provider>` 将 Red
 ## 使用 `useStore` Hook
 
 [`useStore` hook](../api/hooks.md#useStore) 从默认的 `ReactReduxContext` 返回当前的 store 实例。如果你确实需要访问 store，这是推荐的方法。
+
 ## 提供自定义上下文
 
 你可以提供自己的自定义上下文实例，而不是使用 React Redux 中的默认上下文实例。
@@ -123,12 +124,12 @@ compose(
 :::
 
 ```jsx
-import { ReactReduxContext } from 'react-redux'
+import { ReactReduxContext } from 'react-redux';
 
 // <Provider> 内部的某处
 function MyConnectedComponent() {
   // 通过 `useContext` hook 访问 store
-  const { store } = useContext(ReactReduxContext)
+  const { store } = useContext(ReactReduxContext);
 
   // 或者，使用上下文的渲染 props 形式
   /*
