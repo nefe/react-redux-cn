@@ -8,7 +8,7 @@ description: '使用指南 > mapDispatch: options for dispatching actions with c
 
 &nbsp;
 
-# 连接：使用 `mapDispatchToProps` Dispatch Action
+# Connect：使用 `mapDispatchToProps` Dispatch Action
 
 作为传递给 `connect` 的第二个参数，`mapDispatchToProps` 用于 dispatch actions 给 store。
 
